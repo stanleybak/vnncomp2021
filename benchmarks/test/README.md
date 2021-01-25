@@ -5,7 +5,7 @@ They correspond to ACAS Xu networks ("Reluplex: An efficient SMT solver for veri
 Description: If the intruder is directly ahead and is moving towards the
 ownship, the score for COC will not be minimal.
 
-Input constraints: 1500 <= eho <= 1800, −0.06 <= theta <= 0.06, psi >= 3.10, vown >= 980, vint >= 960.
+Input constraints: 1500 <= rho <= 1800, −0.06 <= theta <= 0.06, psi >= 3.10, vown >= 980, vint >= 960.
 
 Computing input bounds logic (python3 code):
 
