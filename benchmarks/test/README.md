@@ -9,6 +9,7 @@ Input constraints: 1500 <= eho <= 1800, −0.06 <= theta <= 0.06, psi >= 3.10, v
 
 Computing input bounds logic (python3 code):
 
+```
 init_lb = [1500, -0.06, 3.1, 980, 960]
 init_ub = [1800, 0.06, 3.1415926535, 1200, 1200]
 
@@ -21,10 +22,12 @@ for i in range(len(init_lb)):
 	ub = (init_ub[i] - means_for_scaling[i]) / range_for_scaling[i]
 	print(f"(assert (<= X_{i} {ub}))")
 	print(f"(assert (>= X_{i} {lb}))")
+```
 
 
 Result:
 
+```
 ; Unscaled Input 0: (1500, 1800)
 (assert (<= X_0 -0.29855281193475053))
 (assert (>= X_0 -0.30353115613746867))
@@ -44,5 +47,6 @@ Result:
 ; Unscaled Input 4: (960, 1200)
 (assert (<= X_4 0.5))
 (assert (>= X_4 0.3))
+```
 
 Desired output property: the score for COC (the first output) is not the minimal score.
