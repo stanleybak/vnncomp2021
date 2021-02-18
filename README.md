@@ -13,7 +13,7 @@ Networks will be provided in an .onnx file format that conforms to the VNNLIB st
 
 Each tool author will be given access to an amazon cloud instance running Ubuntu 20.04 LTS, where they will download any required licenses for their tool. 
 
-The tool's scripts (provided in a .zip file) will then be copied to the home folder and unzipped. The organizers will then run an 'install_tool.sh' script to install the tool, and then, for each benchmark instance, scipts will call 'setup_benchmark.sh' followed by 'run_benchmark.sh', which should produce a results file.
+The tool's scripts (provided in a .zip file) will then be copied to the home folder and unzipped. The VNNCOMP organizers will then run an 'install_tool.sh' script to install the tool, and then, for each benchmark instance, scipts will call 'setup_benchmark.sh' followed by 'run_benchmark.sh', which should produce a results file.
 
  
 ### Scripts (should be in the top level of your git repo file)
