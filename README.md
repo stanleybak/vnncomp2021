@@ -6,7 +6,7 @@ This repo contains the networks and benchmarks used for VNN COMP 2021.
 version 2
 updated Feb 18, 2020
 
-To facilitate automatic evaluation on the cloud, we need your tool in a standard format along with some bash scripts to setup and run the tool. Note that your scripts can be used to download resources from the web such as cloning git repositories.
+To facilitate automatic evaluation on the cloud, we need your tool in a standard format along with some bash scripts to setup and run the tool. Note that your scripts can be used to download resources from the web such as cloning git repositories. For future-proofing, cloning a specific commit or tag is the preferred method of downloading the tool.
 
 ### Workflow
 Networks will be provided in an .onnx file format that conforms to the VNNLIB standard. Properties are provided in a .vnnlib file. The .onnx and .vnnlib files will be downloaded to the home folder by cloning the following git repo: https://github.com/stanleybak/vnncomp2021. For example, the test network / property will be in ~/vnncomp2021/benchmarks/test/test.onnx and ~/vnncomp2020/test/test.vnnlib.
