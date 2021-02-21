@@ -57,7 +57,7 @@ do
 	echo "onnx : $ONNX"
 	echo "vnnlib : $VNNLIB"
 	echo "timeout : $TIMEOUT"
-	./run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX $VNNLIB $TIMEOUT $RESULT_CSV_FILE
+	run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX $VNNLIB $TIMEOUT $RESULT_CSV_FILE
 		
 	done < $INSTANCES_CSV_PATH
 	IFS=$PREV_IFS
