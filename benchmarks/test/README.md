@@ -1,6 +1,6 @@
-These are test networks and scripts.
+These is a test benchmark category. The folder contains .onnx and .vnnlib files used for the category. The test_instance.csv containts the full list of benchmark instances, one per line: onnx_file,vnn_lib_file,timeout_secs
  
-They correspond to ACAS Xu networks ("Reluplex: An efficient SMT solver for verifying deep neural networks"), networks 1-6 (unsat) and 1-7 (sat). The properties correspond to property 3:
+The test properties correspond to ACAS Xu networks (from "Reluplex: An efficient SMT solver for verifying deep neural networks"), networks 1-6 (unsat) and 1-7 (sat). The properties correspond to property 3:
 
 Description: If the intruder is directly ahead and is moving towards the
 ownship, the score for COC will not be minimal.
