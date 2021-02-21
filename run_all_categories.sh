@@ -5,8 +5,9 @@
 # for example ./run_all_categories.sh v1 ../tool_example .. ./out_test.csv
 
 # list of benchmark category names seperated by spaces
-CATEGORY_LIST="test acasxu"
+CATEGORY_LIST="test"
 VERSION_STRING=v1
+SCRIPT_PATH=$(dirname $(realpath $0))
 
 # check arguments
 if [ "$1" != ${VERSION_STRING} ]; then
@@ -37,6 +38,9 @@ fi
 
 echo "Running measurements with vnncomp folder '$VNNCOMP_FOLDER' for tool scripts in '$TOOL_FOLDER'. Saving results to '$RESULT_CSV_FILE'."
 
+# clear file
+echo -n "" > $RESULT_CSV_FILE
+
 # run on each benchmark category
 for CATEGORY in $CATEGORY_LIST
 do
@@ -54,10 +58,10 @@ do
 	    
     while read ONNX VNNLIB TIMEOUT
     do
-	echo "onnx : $ONNX"
-	echo "vnnlib : $VNNLIB"
-	echo "timeout : $TIMEOUT"
-	run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX $VNNLIB $TIMEOUT $RESULT_CSV_FILE
+	ONNX_PATH="${VNNCOMP_FOLDER}/benchmarks/${CATEGORY}/${ONNX}"
+	VNNLIB_PATH="${VNNCOMP_FOLDER}/benchmarks/${CATEGORY}/${VNNLIB}"
+	
+	$SCRIPT_PATH/run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX_PATH $VNNLIB_PATH $TIMEOUT $RESULT_CSV_FILE
 		
 	done < $INSTANCES_CSV_PATH
 	IFS=$PREV_IFS

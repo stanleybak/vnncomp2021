@@ -21,7 +21,8 @@ docker run -d --name $CONTAINER $IMAGE tail -f /dev/null
 
 # to get a shell, remove the lines at the end that delete the container and do: "docker exec -it $CONTAINER bash"
 
-docker cp $CONTAINER:/work/${RESULT_FILE} ${RESULT_FILE}
+
+docker cp $CONTAINER:/${RESULT_FILE} ${RESULT_FILE}
 
 docker kill $CONTAINER
 docker stop $CONTAINER
