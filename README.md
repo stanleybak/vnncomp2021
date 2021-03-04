@@ -1,6 +1,8 @@
 # VNN-COMP 2021 
 
-This repo contains the networks and benchmarks used for VNN COMP 2021.
+This repository contains the networks and benchmarks used for VNN COMP 2021, as well as scripts for running the competition. The issues contains discussion about rules and benchmark proposals.
+
+The repository for last year's (2020) competition is here: https://github.com/verivital/vnn-comp
 
 ## Instructions for Tool Authors
 To facilitate automatic evaluation on the cloud, we need your tool in a standard format along with some bash scripts to setup and run the tool. Note that your scripts can be used to download resources from the web such as cloning git repositories. For future-proofing, cloning a specific commit or tag is the preferred method of downloading the tool.
