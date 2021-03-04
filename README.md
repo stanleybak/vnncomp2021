@@ -25,5 +25,3 @@ Three scripts should be provided for each tool, in the top level of a <toolname>
 
 * `run_instance.sh`: six arguments, first is "v1", second is a benchmark identifier string such as "acasxu", third is path to the .onnx file, fourth is path to .vnnlib file, fifth is a path to the results file, and sixth is a timeout in seconds. Your script will be killed if it exceeds the timeone by too much, but sometimes gracefully quitting is better if you want to release resources cleanly like GPUs. The results file should be created after the script is run and is a simple text file containing one word on a single line: holds, violated, timeout, error, or unknown.
 
-### Example
-An example is given in the `tool_example` folder.
