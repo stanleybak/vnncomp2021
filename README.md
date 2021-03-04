@@ -12,7 +12,7 @@ Networks will be provided in an .onnx file format that conforms to the VNNLIB st
 
 Each tool author will be given access to an amazon cloud instance running Ubuntu 20.04 LTS, where they will download any required licenses for their tool. 
 
-The tool's scripts (provided in a .zip file) will then be copied to the home folder and unzipped. The VNNCOMP organizers will then run an 'install_tool.sh' script to install the tool, and then, for each benchmark instance, scipts will call 'setup_benchmark.sh' followed by 'run_benchmark.sh', which should produce a results file.
+The tool's scripts will then be copied to the home folder. The VNNCOMP organizers will then run an 'install_tool.sh' script to install the tool, and then, for each benchmark instance, scipts will call 'prepare_instance.sh' followed by 'run_instance.sh', which should produce a results file.
 
 
 ### Scripts
@@ -23,7 +23,7 @@ Three scripts should be provided for each tool, in the top level of a <toolname>
 
 * `prepare_instance.sh`: four arguments, first is "v1", second is a benchmark category identifier string such as "acasxu", third is path to the .onnx file and fourth is path to .vnnlib file. This script prepares the benchmark for evaluation (for example converting the onnx file to pytorch or reading in the vnnlib file to generate c++ source code for the specific property and compiling the code using gcc. You can also use this script to ensure that the system is in a good state to measure the next benchmark (for example, there are no zombie processes from previous runs executing and the GPU is available for use). This script should not do any analysis. The benchmark category is provided, as per category settings are permitted (per instance settings are not, so do NOT use the onnx filename vnnlib filename to customize the verification tool settings).
 
-* `run_instance.sh`: six arguments, first is "v1", second is a benchmark category itentifier string such as "acasxu", third is path to the .onnx file, fourth is path to .vnnlib file, fifth is a path to the results file, and sixth is a timeout in seconds. Your script will be killed if it exceeds the timeone by too much, but sometimes gracefully quitting is better if you want to release resources cleanly like GPUs. The results file should be created after the script is run and is a simple text file containing one word on a single line: sat, unsat, timeout, unknown, error or other.
+* `run_instance.sh`: six arguments, first is "v1", second is a benchmark identifier string such as "acasxu", third is path to the .onnx file, fourth is path to .vnnlib file, fifth is a path to the results file, and sixth is a timeout in seconds. Your script will be killed if it exceeds the timeone by too much, but sometimes gracefully quitting is better if you want to release resources cleanly like GPUs. The results file should be created after the script is run and is a simple text file containing one word on a single line: holds, violated, timeout, error, or unknown.
 
 ### Example
 An example is given in the `tool_example` folder.
