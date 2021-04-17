@@ -58,21 +58,32 @@ def get_spec(property_str):
 def print_prop(num, f):
     'print prop to file f'
 
+
+    f.write(f'; ACAS Xu property {num}\n\n')
+
+    # declare constants
+    for x in range(5):
+        f.write(f"(declare-const X_{x} Real)\n")
+
+    f.write("\n")
+
+    for x in range(5):
+        f.write(f"(declare-const Y_{x} Real)\n")
+
+    # input bounds
     init_lb, init_ub = get_init_box(num)
     
     means_for_scaling = [19791.091, 0.0, 0.0, 650.0, 600.0, 7.5188840201005975]
     range_for_scaling = [60261.0, 6.28318530718, 6.28318530718, 1100.0, 1200.0]
-
-    f.write(f'; ACAS Xu property {num}\n')
-
+    
     for i in range(len(init_lb)):
         f.write(f"\n; Unscaled Input {i}: {init_lb[i], init_ub[i]}\n")
         lb = (init_lb[i] - means_for_scaling[i]) / range_for_scaling[i]
         ub = (init_ub[i] - means_for_scaling[i]) / range_for_scaling[i]
-        f.write(f"(assert (<= X_0_0_0_{i} {ub}))\n")
-        f.write(f"(assert (>= X_0_0_0_{i} {lb}))\n")
+        f.write(f"(assert (<= X_{i} {round(ub, 9)}))\n")
+        f.write(f"(assert (>= X_{i} {round(lb, 9)}))\n")
 
-    f.write("\n\n")
+    f.write("\n")
 
     # print spec
     desc, mat, rhs_vec = get_spec(num)
@@ -87,19 +98,19 @@ def print_prop(num, f):
             i1, i2 = np.where(row)[0]
 
             if row[i1] == 1.0 and row[i2] == -1.0:
-                f.write(f"(assert (<= Y_0_{i1} Y_0_{i2}))\n")
+                f.write(f"(assert (<= Y_{i1} Y_{i2}))\n")
             else:
                 assert row[i1] == -1.0 and row[i2] == 1.0
-                f.write(f"(assert (<= Y_0_{i2} Y_0_{i1}))\n")
+                f.write(f"(assert (<= Y_{i2} Y_{i1}))\n")
         else:
             assert sum(row != 0) == 1
 
             i = np.argmax(np.abs(row))
 
             if row[i] > 0:
-                f.write(f"(assert (<= Y_0_{i} {rhs}))\n")
+                f.write(f"(assert (<= Y_{i} {rhs}))\n")
             else:
-                f.write(f"(assert (>= Y_0_{i} {-rhs}))\n")
+                f.write(f"(assert (>= Y_{i} {-rhs}))\n")
 
 def main():
     'main entry point'
