@@ -3,6 +3,7 @@
 This repository contains the networks and benchmarks used for the 2nd International Verification of Neural Networks Competition (VNN-COMP'21), as well as scripts for running the competition. The issues contains discussion about rules and benchmark proposals.
 
 The VNN-COMP'21 website is here:  https://sites.google.com/view/vnn2021 
+
 The repository for last year's (2020) competition is here: https://github.com/verivital/vnn-comp
 
 ## Instructions for Tool Authors
