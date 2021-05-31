@@ -2,14 +2,19 @@
 # run measurements for all categories for a single tool (passed on command line)
 # four args: 'v1' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file
 #
-# for example ./run_all_categories.sh v1 ../tool_example .. ./out_test.csv
+# for example ./run_all_categories.sh v1 /home/stan/repositories/simple_adversarial_generator/vnncomp_scripts/ . ./out_test.csv
 
 # list of benchmark category names seperated by spaces
-CATEGORY_LIST="test"
+CATEGORY_LIST="test acasxu"
 VERSION_STRING=v1
 SCRIPT_PATH=$(dirname $(realpath $0))
 
 # check arguments
+if [ "$#" -ne 4 ]; then
+    echo "Expected four arguments (got $#): '$VERSION_STRING' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file"
+    exit 1
+fi
+
 if [ "$1" != ${VERSION_STRING} ]; then
 	echo "Expected first argument (version string) '$VERSION_STRING', got '$1'"
 	exit 1

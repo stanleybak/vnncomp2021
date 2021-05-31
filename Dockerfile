@@ -3,6 +3,7 @@
 
 FROM ubuntu:20.04
 
+RUN echo "Starting..."
 RUN apt-get update
 RUN apt-get install -y bc # bc is used in vnncomp measurement scripts
 
@@ -12,7 +13,7 @@ RUN apt-get install -y git
 ARG TOOL_NAME=simple_adversarial_generator
 ARG SCRIPTS_DIR=vnncomp_scripts
 ARG REPO=https://github.com/stanleybak/simple_adversarial_generator.git 
-ARG COMMIT=636299bbe224a2bd1a529139de0e92a0ab6b6c3c
+ARG COMMIT=b2b4698e17256126a911ffb6d0423177cfbb3420
 
 RUN git clone $REPO
 RUN cd $TOOL_NAME && git checkout $COMMIT && cd ..

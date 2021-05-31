@@ -34,18 +34,23 @@ echo "prepare_instance.sh exit code: $EXIT_CODE"
 if [ 0 != ${EXIT_CODE} ]; then
 	RESULT_STR="prepare_instance_error"
 else
-
+	echo "no_result_in_file" > "out.txt"
 	# run on benchmarks
 	START=$(date +%s.%N)
 	${TOOL_FOLDER}/run_instance.sh "v1" "$CATEGORY" "$ONNX" "$VNNLIB" "out.txt" "$TIMEOUT"
+	
 	EXIT_CODE=$?
 	END=$(date +%s.%N)
 	RUNTIME=$(echo "$END - $START" | bc)
+	
+	if [ 0 != ${EXIT_CODE} ]; then
+		RESULT_STR="error_exit_code_${EXIT_CODE}"
+	else
+		RESULT=$(head -n 1 "out.txt")
 
-	RESULT=$(head -n 1 "out.txt")
-
-	# remove whitespace
-	RESULT_STR=${RESULT//[[:space:]]/}
+		# remove whitespace
+		RESULT_STR=${RESULT//[[:space:]]/}
+	fi
 
 	echo "run_instance.sh exit code: ${EXIT_CODE}, Result: ${RESULT_STR}, Runtime: ${RUNTIME}"
 fi
