@@ -34,8 +34,8 @@
 
 ; strong left should be minimal
 (assert (or
-    (and (<= Y_0 Y_3))
-    (and (<= Y_1 Y_3))
-    (and (<= Y_2 Y_3))
-    (and (<= Y_4 Y_3))
+     (<= Y_0 Y_3)
+     (<= Y_1 Y_3)
+     (<= Y_2 Y_3)
+     (<= Y_4 Y_3)
 ))
