@@ -34,8 +34,8 @@
 
 ; unsafe if strong right is not minimal
 (assert (or
-     (<= Y_0 Y_4)
-     (<= Y_1 Y_4)
-     (<= Y_2 Y_4)
-     (<= Y_3 Y_4)
+    (and (<= Y_0 Y_4))
+    (and (<= Y_1 Y_4))
+    (and (<= Y_2 Y_4))
+    (and (<= Y_3 Y_4))
 ))

@@ -245,8 +245,7 @@ def print_prop(num, f):
 
             f.write("    ")
             
-            if len(rhs_vec) > 1:
-                f.write("(and")
+            f.write("(and")
 
             for row, rhs in zip(mat, rhs_vec):
                 row = np.array(row, dtype=float)
@@ -260,8 +259,7 @@ def print_prop(num, f):
                     assert row[i1] == -1.0 and row[i2] == 1.0
                     f.write(f" (<= Y_{i2} Y_{i1})")
 
-            if len(rhs_vec) > 1:
-                f.write(")")
+            f.write(")")
 
             f.write("\n")
 
