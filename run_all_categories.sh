@@ -2,16 +2,17 @@
 # run measurements for all categories for a single tool (passed on command line)
 # four args: 'v1' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file
 #
-# for example ./run_all_categories.sh v1 /home/stan/repositories/simple_adversarial_generator/vnncomp_scripts/ . ./out_test.csv
+# for example ./run_all_categories.sh v1 ~/repositories/simple_adversarial_generator/vnncomp_scripts/ . ./out_test.csv "test acasxu"
 
-# list of benchmark category names seperated by spaces
-CATEGORY_LIST="test acasxu"
 VERSION_STRING=v1
 SCRIPT_PATH=$(dirname $(realpath $0))
 
+MAX_CATEGORY_TIMEOUT=6*60*60
+MIN_CATEGORY_TIMEOUT=3*60*60
+
 # check arguments
-if [ "$#" -ne 4 ]; then
-    echo "Expected four arguments (got $#): '$VERSION_STRING' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file"
+if [ "$#" -ne 5 ]; then
+    echo "Expected five arguments (got $#): '$VERSION_STRING' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file, categories"
     exit 1
 fi
 
@@ -23,6 +24,8 @@ fi
 TOOL_FOLDER=$2
 VNNCOMP_FOLDER=$3
 RESULT_CSV_FILE=$4
+# list of benchmark category names seperated by spaces
+CATEGORY_LIST=$5
 
 if [[ $RESULT_CSV_FILE != *csv ]]; then
 	echo "result csv file '$RESULT_CSV_FILE' should end in .csv"
@@ -60,7 +63,15 @@ do
 	    echo "$INSTANCES_CSV_PATH file not found"
 	    exit 1
     fi
-	    
+    
+    SUM_TIMEOUT=`awk -F"," '{x+=$3}END{print x}' < $INSTANCES_CSV_PATH`
+    echo "Category '$CATEGORY' timeout sum: $SUM_TIMEOUT seconds"
+   
+    if (( $(echo "$SUM_TIMEOUT < $MIN_CATEGORY_TIMEOUT || $SUM_TIMEOUT > $MAX_CATEGORY_TIMEOUT" |bc -l) )); then
+	echo "$CATEGORY sum timeout ($SUM_TIMEOUT) not in valid range [$MIN_CATEGORY_TIMEOUT, $MAX_CATEGORY_TIMEOUT]"
+	exit 1
+    fi
+	
     while read ONNX VNNLIB TIMEOUT
     do
 	ONNX_PATH="${VNNCOMP_FOLDER}/benchmarks/${CATEGORY}/${ONNX}"

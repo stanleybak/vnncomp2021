@@ -7,6 +7,7 @@ RESULT_FILE=out.csv
 CONTAINER=${PREFIX}_container
 IMAGE=${PREFIX}_image
 
+rm -f ${RESULT_FILE}
 echo "Running in Docker using container name $CONTAINER and image name $IMAGE"
 
 docker kill $CONTAINER
