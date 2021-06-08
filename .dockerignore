@@ -1,6 +1,7 @@
 .git
-.dockerignore
 .pytest_cache
 .mypy_cache
 __pycache__
+out.csv
 Dockerfile
+.dockerignore

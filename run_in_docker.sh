@@ -1,20 +1,26 @@
 #!/bin/bash
 # run code in docker
 
+CATEGORIES="test"
+
+if [ "$#" -eq 1 ]; then
+    CATEGORIES=$1
+fi
+
 PREFIX=vnncomp2021
 RESULT_FILE=out.csv
 
-CONTAINER=${PREFIX}_container
-IMAGE=${PREFIX}_image
+CONTAINER=${PREFIX}_container2
+IMAGE=${PREFIX}_image2
 
 rm -f ${RESULT_FILE}
-echo "Running in Docker using container name $CONTAINER and image name $IMAGE"
+echo "Running in Docker using container name $CONTAINER and image name $IMAGE, with categories: $CATEGORIES"
 
 docker kill $CONTAINER
 docker stop $CONTAINER
 docker rm $CONTAINER
 
-docker build . -t $IMAGE
+docker build --build-arg CATEGORIES=$CATEGORIES . -t $IMAGE
 
 docker run -d --name $CONTAINER $IMAGE tail -f /dev/null
 

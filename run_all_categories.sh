@@ -44,7 +44,7 @@ then
     exit 1
 fi
 
-echo "Running measurements with vnncomp folder '$VNNCOMP_FOLDER' for tool scripts in '$TOOL_FOLDER'. Saving results to '$RESULT_CSV_FILE'."
+echo "Running measurements with vnncomp folder '$VNNCOMP_FOLDER' for tool scripts in '$TOOL_FOLDER' and saving results to '$RESULT_CSV_FILE'."
 
 # clear file
 echo -n "" > $RESULT_CSV_FILE
@@ -61,6 +61,11 @@ do
     if [ ! -f $INSTANCES_CSV_PATH ]
     then
 	    echo "$INSTANCES_CSV_PATH file not found"
+	    
+	    
+	    echo "Results:"
+	    cat $RESULT_CSV_FILE
+	    
 	    exit 1
     fi
     
