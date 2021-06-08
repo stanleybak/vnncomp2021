@@ -35,13 +35,15 @@ fi
 if [ ! -d $VNNCOMP_FOLDER ] 
 then
     echo "VNNCOMP directory does not exist: '$VNNCOMP_FOLDER'" 
-    exit 1
+    echo "errored" > $RESULT_CSV_FILE
+    exit 0
 fi
 
 if [ ! -d $TOOL_FOLDER ] 
 then
     echo "Tool scripts directory does not exist: '$TOOL_FOLDER'" 
-    exit 1
+    echo "errored" > $RESULT_CSV_FILE
+    exit 0
 fi
 
 echo "Running measurements with vnncomp folder '$VNNCOMP_FOLDER' for tool scripts in '$TOOL_FOLDER' and saving results to '$RESULT_CSV_FILE'."
@@ -62,11 +64,8 @@ do
     then
 	    echo "$INSTANCES_CSV_PATH file not found"
 	    
-	    
-	    echo "Results:"
-	    cat $RESULT_CSV_FILE
-	    
-	    exit 1
+	    echo "errored" > $RESULT_CSV_FILE
+	    exit 0
     fi
     
     SUM_TIMEOUT=`awk -F"," '{x+=$3}END{print x}' < $INSTANCES_CSV_PATH`
@@ -74,7 +73,9 @@ do
    
     if (( $(echo "$SUM_TIMEOUT < $MIN_CATEGORY_TIMEOUT || $SUM_TIMEOUT > $MAX_CATEGORY_TIMEOUT" |bc -l) )); then
 	echo "$CATEGORY sum timeout ($SUM_TIMEOUT) not in valid range [$MIN_CATEGORY_TIMEOUT, $MAX_CATEGORY_TIMEOUT]"
-	exit 1
+	
+	echo "errored" > $RESULT_CSV_FILE
+	exit 0
     fi
 	
     while read ONNX VNNLIB TIMEOUT

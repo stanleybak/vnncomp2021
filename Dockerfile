@@ -4,11 +4,9 @@
 FROM ubuntu:20.04
 
 RUN echo "Starting..."
-RUN apt-get update
-RUN apt-get install -y bc # bc is used in vnncomp measurement scripts
+RUN apt-get update && apt-get install -y bc git # bc is used in vnncomp measurement scripts
 
 ################## install tool
-RUN apt-get install -y git
 
 ARG TOOL_NAME=simple_adversarial_generator
 ARG SCRIPTS_DIR=vnncomp_scripts
@@ -20,9 +18,8 @@ RUN cd $TOOL_NAME && git checkout $COMMIT && cd ..
 RUN /$TOOL_NAME/$SCRIPTS_DIR/install_tool.sh v1
 
 #################### run vnncomp
-ARG CATEGORIES="test"
 COPY . /vnncomp2021
 
 # run all categories to produce out.csv
-
+ARG CATEGORIES="test"
 RUN vnncomp2021/run_all_categories.sh v1 /$TOOL_NAME/$SCRIPTS_DIR vnncomp2021 out.csv $CATEGORIES
