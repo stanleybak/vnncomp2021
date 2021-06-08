@@ -16,3 +16,4 @@ out.csv
 out_test.csv
 out.txt
 benchmarks/test/test_zipped.onnx
+*tmp/
