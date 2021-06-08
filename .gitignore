@@ -12,5 +12,7 @@ TAGS
 *.mypy_cache
 __pycache__
 *.pkl
-
 out.csv
+out_test.csv
+out.txt
+benchmarks/test/test_zipped.onnx

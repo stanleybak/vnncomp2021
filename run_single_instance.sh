@@ -27,6 +27,22 @@ echo "Doing run_single_instance with category '$CATEGORY' on onnx network '$ONNX
 RESULT_STR="run_single_instance_error"
 RUNTIME=-1
 
+# uncompress onnx file if needed: "gzip -dk test_zipped.onnx.gz"
+if [[ $ONNX == *gz ]] # * is used for pattern matching
+then
+	UNCOMPRESSED_ONNX=${ONNX%.gz}
+	
+	if [ ! -f $UNCOMPRESSED_ONNX ]
+    then
+	    # UNCOMPRESSED_ONNX doesn't exist, create it
+	    echo "$UNCOMPRESSED_ONNX doesn't exist, unzipping"
+	    gzip -vdk $ONNX
+    fi
+    
+    ONNX=$UNCOMPRESSED_ONNX
+fi
+
+# run prepare instance
 ${TOOL_FOLDER}/prepare_instance.sh "v1" "$CATEGORY" "$ONNX" "$VNNLIB"
 EXIT_CODE=$?
 echo "prepare_instance.sh exit code: $EXIT_CODE"
