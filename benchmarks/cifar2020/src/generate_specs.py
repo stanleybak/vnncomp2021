@@ -100,6 +100,8 @@ def main():
     parser.add_argument('--std', nargs='+', type=float, default=1.0, help='the standard deviation used to normalize the data with')
     parser.add_argument('--time_out', type=float, default=300.0, help='the mean used to normalize the data with')
     parser.add_argument('--negate_spec', action="store_true", default=False, help='Generate spec that is violated for correct certification')
+    parser.add_argument('--dont_extend', action="store_true", default=False, help='Do not filter for naturally correctly classified images')
+
     args = parser.parse_args()
 
     if args.start_idx is not None:
@@ -131,6 +133,7 @@ def main():
 
     i = 0
     ii = 1
+    n_ok = 0
     with open(args.instances, "w" if args.new_instances else "a") as f:
         while i<len(idxs):
             idx = idxs[i]
@@ -141,11 +144,12 @@ def main():
                 x = (x-mean)/std
                 pred_onx = sess.run(None, {input_name: x})[0]
                 y_pred = np.argmax(pred_onx, axis=-1)
+                n_ok += sum(y == y_pred)
 
             if args.network is None or all(y == y_pred):
                 spec_i = write_vnn_spec(dataset, idx, args.epsilon, dir_path=spec_path, prefix=args.dataset + "_spec", data_lb=0, data_ub=1, n_class=10, mean=mean, std=std, negate_spec=args.negate_spec)
                 f.write(f"{''if args.network is None else os.path.join('nets',os.path.basename(args.network))},{os.path.join('specs',args.dataset,spec_i)},{args.time_out:.1f}\n")
-            else:
+            elif not args.dont_extend:
                 if len(idxs) < len(dataset): # only sample idxs while there are still new samples to be found
                     if args.block: # if we want samples in a block, just get the next one
                         idxs.append(*get_sample_idx(1, True, n_max=len(dataset), start_idx=idxs[-1]+1))
@@ -156,7 +160,7 @@ def main():
                             tmp_idx = get_sample_idx(1, False, seed=args.seed + ii, n_max=len(dataset))
                             ii += 1
                         idxs.append(*tmp_idx)
-        print(f"{len(idxs)-args.n} samples were misclassified and replacement samples drawn.")
+        print(f"{len(idxs)-n_ok} samples were misclassified{''if args.dont_extend else ' and replacement samples drawn'}.")
 
 if __name__ == "__main__":
     main()
