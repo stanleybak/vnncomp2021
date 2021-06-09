@@ -197,7 +197,7 @@ def create_oval21(seed, use_cpu):
             print(f'idx_{imag_idx}_prop_{prop_idx}_eps_train_{eps_train}')
 
             # Set binary search lower and upper bounds, and the BaB function with only epsilon as argument.
-            # Range: [0, 16/255], with a tolerance of 1/255 -- original [0,1] space
+            # Range: [0, 16/255], with a tolerance of 0.1/255 -- original [0,1] space
             eps_lower_bound, eps_upper_bound = 0, 16 / 255
             tolerance = 0.1/255
 
@@ -318,7 +318,8 @@ def pytorch_to_onnx(onnx_filename, model, input_example):
     """
     Exports a PyTorch model into the .onnx format. Requires an input example.
     """
-    torch.onnx.export(model, input_example, onnx_filename)
+    if not os.path.exists(onnx_filename):
+        torch.onnx.export(model, input_example, onnx_filename)
 
 
 if __name__ == "__main__":
