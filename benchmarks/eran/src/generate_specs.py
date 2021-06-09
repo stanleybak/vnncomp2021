@@ -6,7 +6,7 @@ import onnxruntime as rt
 import re
 
 
-def write_vnn_spec(dataset, index, eps, dir_path="./", prefix="spec", data_lb=0, data_ub=1, n_class=10, mean=0.0, std=1.0):
+def write_vnn_spec(dataset, index, eps, dir_path="./", prefix="spec", data_lb=0, data_ub=1, n_class=10, mean=0.0, std=1.0, negate_spec=False):
     x, y = dataset[index]
     x = np.array(x)
     x_lb = np.clip(x - eps, data_lb, data_ub)
@@ -45,11 +45,16 @@ def write_vnn_spec(dataset, index, eps, dir_path="./", prefix="spec", data_lb=0,
             f.write(f"(assert (>= X_{i} {x_lb[i]:.8f}))\n")
 
         f.write(f"\n; Definition of output constraints\n")
-        f.write(f"(assert (or\n")
-        for i in range(n_class):
-            if i == y: continue
-            f.write(f"\t(and (>= Y_{i} Y_{y}))\n")
-        f.write(f"))\n")
+        if negate_spec:
+            for i in range(n_class):
+                if i == y: continue
+                f.write(f"(assert (<= Y_{i} Y_{y}))\n")
+        else:
+            f.write(f"(assert (or\n")
+            for i in range(n_class):
+                if i == y: continue
+                f.write(f"\t(and (>= Y_{i} Y_{y}))\n")
+            f.write(f"))\n")
     return spec_name
 
 
@@ -94,6 +99,7 @@ def main():
     parser.add_argument('--mean', nargs='+', type=float, default=0.0, help='the mean used to normalize the data with')
     parser.add_argument('--std', nargs='+', type=float, default=1.0, help='the standard deviation used to normalize the data with')
     parser.add_argument('--time_out', type=float, default=300.0, help='the mean used to normalize the data with')
+    parser.add_argument('--negate_spec', action="store_true", default=False, help='Generate spec that is violated for correct certification')
     args = parser.parse_args()
 
     if args.start_idx is not None:
@@ -137,7 +143,7 @@ def main():
                 y_pred = np.argmax(pred_onx, axis=-1)
 
             if args.network is None or all(y == y_pred):
-                spec_i = write_vnn_spec(dataset, idx, args.epsilon, dir_path=spec_path, prefix=args.dataset + "_spec", data_lb=0, data_ub=1, n_class=10, mean=mean, std=std)
+                spec_i = write_vnn_spec(dataset, idx, args.epsilon, dir_path=spec_path, prefix=args.dataset + "_spec", data_lb=0, data_ub=1, n_class=10, mean=mean, std=std, negate_spec=args.negate_spec)
                 f.write(f"{''if args.network is None else os.path.join('nets',os.path.basename(args.network))},{os.path.join('specs',args.dataset,spec_i)},{args.time_out:.1f}\n")
             else:
                 if len(idxs) < len(dataset): # only sample idxs while there are still new samples to be found
