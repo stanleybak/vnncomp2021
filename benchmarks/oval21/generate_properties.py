@@ -125,10 +125,10 @@ def binary_eps_search(eps_lower_bound, eps_upper_bound, bab_function, quantizati
 
 def create_oval21(seed, use_cpu):
     """
-        Create OVAL_WK dataset.
-          Start from the entire CIFAR10 testset, sampling random images. The allowed epsilon range is
-          [0, 16/255], with a tolerance of 0.1/255 (expressed in the non-normalized space).
-          Find the an epsilon halfway through properties verified as UNSAT with Planet bounds (WK/CROWN IB), and
+        Create OVAL21 dataset.
+          Start from the entire CIFAR10 testset, sampling random correctly classified images.
+          The allowed epsilon range is [0, 16/255], with a tolerance of 0.1/255.
+          Find the an epsilon 2/3 through properties verified as UNSAT with Planet bounds (WK/CROWN IB), and
            epsilons that yield SAT properties by running a simple attack.
     """
 
@@ -140,14 +140,20 @@ def create_oval21(seed, use_cpu):
     # Bounding specs.
     max_solver_batch_list = [45000, 30000, 30000]
 
-    # Employ random seed.
+    # Employ random seed, fix operation nondeterminism.
     torch.manual_seed(seed)
+    if hasattr(torch, "use_deterministic_algorithms"):
+        torch.use_deterministic_algorithms(True)
+    elif not use_cpu:
+        torch.backends.cudnn.deterministic = True
+    if not use_cpu:
+        torch.backends.cudnn.benchmark = False
 
     # Sample 10 CIFAR10 images, as per original COLT dataset specification. This way we can use 720 as VNN-COMP timeout
     max_index = int(1e4)
     n_images_per_net = 10
 
-    vnnlib_path = "./vnnlib/"
+    vnnlib_path = "vnnlib/"
     if not os.path.exists(vnnlib_path):
         os.makedirs(vnnlib_path)
 
@@ -156,7 +162,7 @@ def create_oval21(seed, use_cpu):
                                   transform=transforms.Compose([transforms.ToTensor()]))
 
     # Create .onnx nets
-    onnx_path = "./nets/"
+    onnx_path = "nets/"
     if not os.path.exists(onnx_path):
         os.makedirs(onnx_path)
     onnx_names = [f"{onnx_path}{cname}.onnx" for cname in nn_names]
@@ -305,13 +311,9 @@ def create_benchmark_csv(csv_filename, property_dict, timeout):
     :param property_dict: a dictionary indexed by onnx net names containing list of vnnlib files for that network
     """
     with open(csv_filename, "w") as f:
-        line_count = 0
         for net in property_dict.keys():
             for prop in property_dict[net]:
-                if line_count > 0:
-                    f.write("\n")
-                f.write(f"{net},{prop},{timeout}")
-                line_count += 1
+                f.write(f"{net},{prop},{timeout}\n")
 
 
 def pytorch_to_onnx(onnx_filename, model, input_example):
@@ -329,5 +331,4 @@ if __name__ == "__main__":
     parser.add_argument('--cpu', action='store_true', help='Use cpu instead of a gpu (if not available)')
     args = parser.parse_args()
 
-    os.system("pip install .")
     create_oval21(args.seed, args.cpu)
