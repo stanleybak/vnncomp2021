@@ -1,6 +1,0 @@
-(declare-const X_0 Real)
-(declare-const Y_0 Real)
-(assert (>= X_0 630346))
-(assert (<= X_0 630600))
-(assert (>= Y_0 132731))
-(assert (<= Y_0 132891))
