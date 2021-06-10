@@ -24,4 +24,10 @@ rm -f ../specs/cifar10/*.vnnlib
 ./specs_from_seed.sh $SEED
 popd
 
+pushd oval21
+rm -f vnnlib/*.vnnlib
+CUBLAS_WORKSPACE_CONFIG=:4096:8 eval 'python3 generate_properties.py --seed 0'
+popd
+
+
 echo "Successfully generated all random instances."

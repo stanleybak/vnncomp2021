@@ -19,3 +19,4 @@ benchmarks/test/test_zipped.onnx
 */mnistfc/tmp/*
 */cifar2020/data/*
 */eran/data/*
+*/oval21/cifardata/*
