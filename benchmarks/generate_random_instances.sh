@@ -1,0 +1,27 @@
+#!/bin/bash -e
+# generate random benchmarks based on seed
+
+SEED=0
+
+if [ "$#" -eq 1 ]; then
+    SEED=$1
+fi
+
+
+pushd mnistfc
+#pip3 install torch==1.8.1
+python3 generate_properties.py $SEED
+popd
+
+
+pushd eran/src
+rm -f ../specs/mnist/*.vnnlib
+./specs_from_seed.sh $SEED
+popd
+
+pushd cifar2020/src
+rm -f ../specs/cifar10/*.vnnlib
+./specs_from_seed.sh $SEED
+popd
+
+echo "Successfully generated all random instances."
