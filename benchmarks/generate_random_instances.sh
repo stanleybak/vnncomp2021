@@ -21,7 +21,9 @@ popd
 
 pushd cifar2020/src
 rm -f ../specs/cifar10/*.vnnlib
-./specs_from_seed.sh $SEED
+#./specs_from_seed.sh $SEED
+./specs_from_seed.sh
+echo "WARNING: CIFAR2020 not using random seed (first 100 images)"
 popd
 
 pushd oval21
@@ -31,3 +33,4 @@ popd
 
 
 echo "Successfully generated all random instances."
+echo "WARNING: CIFAR2020 not using random seed (first 100 images)"
