@@ -42,18 +42,32 @@ then
     ONNX=$UNCOMPRESSED_ONNX
 fi
 
-# run prepare instance
-${TOOL_FOLDER}/prepare_instance.sh "v1" "$CATEGORY" "$ONNX" "$VNNLIB"
+# timeout upon which we'll kill the process
+KILL_TIMEOUT=$(echo "$TIMEOUT + 20" | bc)
+
+# run prepare instance (60 second timeout)
+PREPARE_INSTANCE_TIMEOUT=60
+
+START=$(date +%s.%N)
+timeout $PREPARE_INSTANCE_TIMEOUT ${TOOL_FOLDER}/prepare_instance.sh "v1" "$CATEGORY" "$ONNX" "$VNNLIB"
 EXIT_CODE=$?
-echo "prepare_instance.sh exit code: $EXIT_CODE"
+END=$(date +%s.%N)
+PREPARE_RUNTIME=$(echo "$END - $START" | bc)
+	
+echo "prepare_instance.sh exit code: $EXIT_CODE, runtime: $PREPARE_RUNTIME"
 
 if [ 0 != ${EXIT_CODE} ]; then
-	RESULT_STR="prepare_instance_error"
+	RESULT_STR="prepare_instance_error_$EXIT_CODE"
+	
+	if [ 124 == ${EXIT_CODE} ]; then
+	    echo "Error: prepare_instance.sh exceeded $PREPARE_INSTANCE_TIMEOUT second timeout!"
+	    RESULT_STR="prepare_instance_timeout"
+	fi
 else
 	echo "no_result_in_file" > "out.txt"
 	# run on benchmarks
 	START=$(date +%s.%N)
-	${TOOL_FOLDER}/run_instance.sh "v1" "$CATEGORY" "$ONNX" "$VNNLIB" "out.txt" "$TIMEOUT"
+	timeout $KILL_TIMEOUT ${TOOL_FOLDER}/run_instance.sh "v1" "$CATEGORY" "$ONNX" "$VNNLIB" "out.txt" "$TIMEOUT"
 	
 	EXIT_CODE=$?
 	END=$(date +%s.%N)
@@ -61,6 +75,11 @@ else
 	
 	if [ 0 != ${EXIT_CODE} ]; then
 		RESULT_STR="error_exit_code_${EXIT_CODE}"
+		
+		if [ 124 == ${EXIT_CODE} ]; then
+		    echo "Error: run_instance.sh exceeded $KILL_TIMEOUT second timeout!"
+		    RESULT_STR="run_instance_timeout"
+		fi
 	else
 		RESULT=$(head -n 1 "out.txt")
 
@@ -72,6 +91,6 @@ else
 fi
 
 echo "Appending result '$RESULT_STR' to csv file '$RESULT_CSV_FILE'"
-echo "${CATEGORY},${ONNX},${VNNLIB},${RESULT_STR},${RUNTIME}" >> $RESULT_CSV_FILE
+echo "${CATEGORY},${ONNX},${VNNLIB},${PREPARE_RUNTIME},${RESULT_STR},${RUNTIME}" >> $RESULT_CSV_FILE
 
 

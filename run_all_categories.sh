@@ -2,7 +2,7 @@
 # run measurements for all categories for a single tool (passed on command line)
 # four args: 'v1' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file
 #
-# for example ./run_all_categories.sh v1 ~/repositories/simple_adversarial_generator/vnncomp_scripts/ . ./out_test.csv "test acasxu"
+# for example ./run_all_categories.sh v1 ~/repositories/nnenum/vnncomp_scripts/ . ./out.csv "test acasxu"
 
 VERSION_STRING=v1
 SCRIPT_PATH=$(dirname $(realpath $0))

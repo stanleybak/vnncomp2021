@@ -20,7 +20,7 @@ docker kill $CONTAINER
 docker stop $CONTAINER
 docker rm $CONTAINER
 
-docker build --build-arg CATEGORIES=$CATEGORIES . -t $IMAGE
+docker build --build-arg CATEGORIES="$CATEGORIES" . -t $IMAGE
 
 docker run -d --name $CONTAINER $IMAGE tail -f /dev/null
 
