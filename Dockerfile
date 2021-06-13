@@ -10,12 +10,12 @@ RUN apt-get update && apt-get install -y bc git # bc is used in vnncomp measurem
 
 ARG TOOL_NAME=simple_adversarial_generator
 ARG REPO=https://github.com/stanleybak/simple_adversarial_generator.git 
-ARG COMMIT=c9af3c6a6ae64110c263ca4e81e9fc8f149dc464
+ARG COMMIT=34682c72681b8185ea5e448af22cb5dd3652b504
 ARG SCRIPTS_DIR=vnncomp_scripts
 
 #ARG TOOL_NAME=nnenum
 #ARG REPO=https://github.com/stanleybak/nnenum.git 
-#ARG COMMIT=75f3fd462e271fbff2c1248ae52de8caf57acc76
+#ARG COMMIT=c93a39cb568f58a26015bd151acafab34d2d4929
 #ARG SCRIPTS_DIR=vnncomp_scripts
 
 RUN git clone $REPO
