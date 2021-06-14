@@ -7,4 +7,4 @@ fi
 mkdir specs
 
 seed=$1
-python3 generate_linf_robustness_query.py --seed $seed
+python3.8 generate_linf_robustness_query.py --seed $seed
