@@ -1,8 +1,8 @@
 ############################################################
 #    CIFAR10-ResNet benchmark (for VNN Comp 2021)          #
 #                                                          #
-# Copyright (C) 2021  Huan Zhang (huan@huan-zhang.com)     #
 # Copyright (C) 2021  Shiqi Wang (sw3215@columbia.edu)     #
+# Copyright (C) 2021  Huan Zhang (huan@huan-zhang.com)     #
 # Copyright (C) 2021  Kaidi Xu (xu.kaid@northeastern.edu)  #
 #                                                          #
 # This program is licenced under the BSD 2-Clause License  #

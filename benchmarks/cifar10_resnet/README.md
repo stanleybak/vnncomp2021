@@ -28,8 +28,8 @@ epsilon (2/255). We report basic model performance numbers below:
 
 | Model      | # ReLUs | Clean acc. |  PGD acc. <br> ε=2/255  |  PGD acc. <br> ε=1/255 | CROWN/DeepPoly <br> verified acc. <br> ε=2/255 | CROWN/DeepPoly <br> verified acc. <br> ε=1/255 |
 |------------|---------|------------|-----------------|----------------|-----------------------------------|-----------------------------------|
-| ResNet-2B  |   6244  |    69.25%  |      56.67%     |      63.15%    |   26.88%                          |   57.16%                          |
-| ResNet-4B  |  14436  |    77.20%  |      62.92%     |      70.41%    |    0.24%                          |   23.28%                          |
+| ResNet-2B  |   6244  |    69.25%  |      54.82%     |      62.24%    |   26.88%                          |   57.16%                          |
+| ResNet-4B  |  14436  |    77.20%  |      61.41%     |      69.75%    |    0.24%                          |   23.28%                          |
 
 Since the models are trained using adversarial training, it also poses a
 challenge for many verifiers - the CROWN/DeepPoly verified accuracy (as a
@@ -45,15 +45,14 @@ eps=2/255 on unnormalized images and clipped to the [0, 1] range. We provide
 preprocessing, channel order etc).
 
 **Data Selection**: We propose to randomly select 48 images from the test set
-for the ResNet-2B and 24 images for the ResNet-4B. 
-The images are classified correctly and cannot be attacked by a 50-step targeted PGD
-attack with 5 random restarts. 
-For each image, we specify the property that the groundtruth label
-is always larger than all the other labels within L∞ perturbation `ε=2/255` 
-on input for ResNet-2B and `ε=1/255` for ResNet-4B. The `ε` for ResNet-4B is smaller
-to reduce its difficulty, and it can be increased in future evaluations. The
-Per-example timeout is set to 5 minutes and the overall runtime is guaranteed to be
-less than 6 hours.
+for the ResNet-2B and 24 images for the ResNet-4B.  The images are classified
+correctly and cannot be attacked by a 100-step PGD attack with 5 random
+restarts.  For each image, we specify the property that the groundtruth label
+is always larger than all the other labels within L∞ perturbation `ε=2/255` on
+input for ResNet-2B and `ε=1/255` for ResNet-4B. The `ε` for ResNet-4B is
+smaller to reduce its difficulty, and it can be increased in future
+evaluations. The Per-example timeout is set to 5 minutes and the overall
+runtime is guaranteed to be less than 6 hours.
 
 See instructions below for generating test images with a script, and some example
 properties are in the `vnnlib_properties_pgd_filtered` folder.
@@ -62,11 +61,11 @@ properties are in the `vnnlib_properties_pgd_filtered` folder.
 **Generating properties**: To generate properties random images 
 and verification properties (i.e., the property is that the true label is larger
 than all the other labels under perturbation) that are classified correctly and
-are also robust against targeted pgd attacks, please run:
+are also robust against 100-step PGD attacks with 5 random restarts, please run:
 
 ```bash
 cd pytorch_model
-python generate_properties_pgd.py --seed <seed>
+python generate_properties_pgd.py --seed <seed> --device [cpu|gpu]
 ```
 
 **Citation:** If you use our ResNet benchmarks in your research, please kindly cite our paper:
