@@ -170,7 +170,7 @@ def create_csv():
     for i in range(24):
         instance_list.append([f"onnx/{model_name}.onnx", f"vnnlib_properties_pgd_filtered/resnet4b_pgd_filtered/prop_{i}_eps_0.004.vnnlib", "300"])
 
-    with open('../instance.csv', 'w') as f:
+    with open('../cifar10_resnet_instances.csv', 'w') as f:
         write = csv.writer(f)
         # write.writerow(fields)
         write.writerows(instance_list)
