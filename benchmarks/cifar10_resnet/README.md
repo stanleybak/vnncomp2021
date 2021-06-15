@@ -59,7 +59,7 @@ See instructions below for generating test images with a script, and some exampl
 properties are in the `vnnlib_properties_pgd_filtered` folder.
 
 
-**Generating properties (NEED TO BE UPDATED)**: To generate properties random images 
+**Generating properties**: To generate properties random images 
 and verification properties (i.e., the property is that the true label is larger
 than all the other labels under perturbation) that are classified correctly and
 are also robust against targeted pgd attacks, please run:
