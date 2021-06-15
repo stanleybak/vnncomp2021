@@ -9,8 +9,22 @@ https://github.com/Neelanjana314/vnn-comp21-benchmarks/tree/main/Data);
 
 The network expects the input image to be (28x28x1) and normalized between[0,1].
 
-Please use the property folder named with 'python' incase the model checker is python based; for matlab based tools use
-the folder named with 'matlab'
+#### Generating vnnlib specifications:
+
+Run: 
+```
+python generate_properties.py --seed
+```
+Here 'seed' is a boolean variable and the default is set to True. In case no random selecetion of image is need provide 
+'--seed False' as a command line argument.
+
+The script generate_properties.py generates the vnnlib properties as well as the 
+mnist_Conv_pool_instances.csv provides the network,specs, timeout instances. 
+
+#### Network Performace(accuracies) on Test data:
+
+Convnet_avgpool.onnx:  97.95 %  (Training accuracy: 98.31 %)
+Convnet_maxpool.onnx:  97.92 %  (Training accuracy: 98.75 %)
 
 For any queries, please feel free to contact: neelanjana.pal@vanderbilt.edu
                                           or  neelanjana314@gmail.com 
