@@ -1,17 +1,30 @@
+############################################################
+#    CIFAR10-ResNet benchmark (for VNN Comp 2021)          #
+#                                                          #
+# Copyright (C) 2021  Huan Zhang (huan@huan-zhang.com)     #
+# Copyright (C) 2021  Shiqi Wang (sw3215@columbia.edu)     #
+# Copyright (C) 2021  Kaidi Xu (xu.kaid@northeastern.edu)  #
+#                                                          #
+# This program is licenced under the BSD 2-Clause License  #
+############################################################
 
 import os
 import argparse
 import csv
 
+import numpy as np
 import torch
+import torch.nn.functional as F
 import torchvision.datasets as dset
 import torchvision.transforms as trans
 from torch.utils.data import DataLoader
 from torch.utils.data import sampler
+
 from resnet import resnet2b, resnet4b
-from eval import normalize
-import numpy as np
-import torch.nn.functional as F
+from cifar_eval import normalize
+# from attack_pgd import attack_pgd
+torch.backends.cuda.matmul.allow_tf32 = False
+torch.backends.cudnn.allow_tf32 = False
 
 
 def attack_pgd(model, X, y, epsilon, alpha=0.5/255, attack_iters=50, restarts=5, target=None, upper_limit=None, lower_limit=None):
@@ -217,9 +230,8 @@ def create_csv():
 
 def create_vnnlib(args):
     num_imgs = args.num_images
-    random = args.random
     print(f"===== model: {args.model} epsilons: {args.epsilons} total images: {args.num_images} =====")
-    print("randomness:", args.random, "seed:", args.seed)
+    print("deterministic", args.deterministic, "seed:", args.seed)
     epsilons = [eval(eps) for eps in args.epsilons.split(" ")]
 
     result_dir = "../vnnlib_properties_pgd_filtered/"
@@ -238,11 +250,11 @@ def create_vnnlib(args):
     model.load_state_dict(torch.load(model_path)["state_dict"])
     model = model.cuda()
 
-    if args.random and args.seed is not None:
+    if args.seed is not None:
         # we use random seed 0 for deterministic testing
         torch.random.manual_seed(args.seed)
 
-    images, labels = load_data(num_imgs=10000, random=random)
+    images, labels = load_data(num_imgs=10000, random=not args.deterministic)
 
     for eps in epsilons:
         acc, pgd_acc = 0, 0
@@ -310,11 +322,11 @@ def create_vnnlib(args):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="resnet2b", choices=["resnet2b", "resnet4b"])
-    parser.add_argument('--num_images', type=int, default=50)
-    parser.add_argument('--random', type=bool, default=True)
-    parser.add_argument('--seed', type=int, default=None)
-    parser.add_argument('--epsilons', type=str, default="2/255")
+    # parser.add_argument('--model', type=str, default="resnet2b", choices=["resnet2b", "resnet4b"])
+    # parser.add_argument('--num_images', type=int, default=50)
+    parser.add_argument('--deterministic', action='store_true', help='Do not generate random examples; use dataset order instead.')
+    parser.add_argument('--seed', type=int, default=None, help='random seed.')
+    # parser.add_argument('--epsilons', type=str, default="2/255")
     args = parser.parse_args()
 
     # Example: $python generate_properties_pgd.py --num_images 100 --random True --epsilons '2/255' --seed 0
