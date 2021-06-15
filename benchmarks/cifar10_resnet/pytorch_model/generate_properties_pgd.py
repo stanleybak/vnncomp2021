@@ -198,7 +198,7 @@ def create_vnnlib(args):
     std = torch.tensor(cifar10_std).view(3,1,1)
 
     model = eval(args.model)()
-    model.load_state_dict(torch.load(model_path)["state_dict"])
+    model.load_state_dict(torch.load(model_path, map_location='cpu')["state_dict"])
     if args.device == 'gpu':
         torch.backends.cuda.matmul.allow_tf32 = False
         torch.backends.cudnn.allow_tf32 = False
