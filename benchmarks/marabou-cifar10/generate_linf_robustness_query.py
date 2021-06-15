@@ -54,8 +54,8 @@ def getBenchmark(network, test_images, test_labels, epsilon, index, timeout, csv
         val = image[i]
         lb = max(0, val - epsilon)
         ub = min(1, val + epsilon)
-        print("(assert (<= X_{} {})".format(i, ub), file=f)
-        print("(assert (>= X_{} {})".format(i, lb), file=f)
+        print("(assert (<= X_{} {}))".format(i, ub), file=f)
+        print("(assert (>= X_{} {}))".format(i, lb), file=f)
 
     print( "; Output constraints",file=f)
     for i in range(10):
