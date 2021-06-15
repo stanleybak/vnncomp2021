@@ -14,8 +14,6 @@ from torch.optim import Optimizer
 
 torch._C._jit_set_profiling_executor(False)
 torch._C._jit_set_profiling_mode(False)
-torch.backends.cuda.matmul.allow_tf32 = False
-torch.backends.cudnn.allow_tf32 = False
 
 def attack_pgd(model, X, y, epsilon, alpha, attack_iters, num_restarts,
         multi_targeted=True, num_classes=10, use_adam=True, lr_decay=0.98,

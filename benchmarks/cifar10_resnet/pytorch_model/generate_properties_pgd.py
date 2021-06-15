@@ -22,8 +22,10 @@ from torch.utils.data import DataLoader
 from torch.utils.data import sampler
 
 from resnet import resnet2b, resnet4b
-from cifar_eval import normalize
 from attack_pgd import attack_pgd
+
+cifar10_mean = (0.4914, 0.4822, 0.4465)  # np.mean(train_set.train_data, axis=(0,1,2))/255
+cifar10_std = (0.2471, 0.2435, 0.2616)  # np.std(train_set.train_data, axis=(0,1,2))/255
 
 
 def load_data(data_dir: str = "./tmp", num_imgs: int = 25, random: bool = False) -> tuple:
@@ -192,12 +194,19 @@ def create_vnnlib(args):
     if not os.path.isdir(result_dir):
         os.mkdir(result_dir)
 
+    mu = torch.tensor(cifar10_mean).view(3,1,1)
+    std = torch.tensor(cifar10_std).view(3,1,1)
+
     model = eval(args.model)()
     model.load_state_dict(torch.load(model_path)["state_dict"])
     if args.device == 'gpu':
         torch.backends.cuda.matmul.allow_tf32 = False
         torch.backends.cudnn.allow_tf32 = False
         model = model.cuda()
+        mu = mu.cuda()
+        std = std.cuda()
+        
+    normalize = lambda X: (X - mu)/std
 
     if args.seed is not None:
         if args.device == 'gpu':
@@ -266,7 +275,7 @@ if __name__ == '__main__':
     # parser.add_argument('--num_images', type=int, default=50)
     parser.add_argument('--deterministic', action='store_true', help='Do not generate random examples; use dataset order instead.')
     parser.add_argument('--seed', type=int, default=0, help='random seed.')
-    parser.add_argument('--device', choices=['cpu', 'gpu'], default='gpu', help='Choose device to generate adversarial examples.')
+    parser.add_argument('--device', choices=['cpu', 'gpu'], default='cpu', help='Choose device to generate adversarial examples.')
     # parser.add_argument('--epsilons', type=str, default="2/255")
     args = parser.parse_args()
 
