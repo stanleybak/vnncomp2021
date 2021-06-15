@@ -88,15 +88,6 @@ def attack_pgd(model, X, y, epsilon, alpha, attack_iters, num_restarts,
                     delta.copy_(d)
                     delta.grad = None
 
-        # Consider the final iteration.
-        with torch.no_grad():
-            if not multi_targeted:
-                best_delta[loss >= best_loss] = delta[loss >= best_loss]
-            else:
-                all_loss, indices = loss.max(1)
-                delta_targeted = delta.gather(dim=1, index=indices.view(-1,1,1,1,1).expand(-1,-1,*input_shape[1:])).squeeze(1)
-                best_delta[all_loss >= best_loss] = delta_targeted[all_loss >= best_loss]
-
     return best_delta
 
 
