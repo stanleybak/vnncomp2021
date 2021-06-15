@@ -31,6 +31,15 @@ rm -f vnnlib/*.vnnlib
 CUBLAS_WORKSPACE_CONFIG=:4096:8 eval 'python3 generate_properties.py --seed $SEED'
 popd
 
+pushd cifar10_resnet/pytorch_model
+rm -f ../vnnlib_properties_pgd_filtered/resnet2b_pgd_filtered/*.vnnlib
+rm -f ../vnnlib_properties_pgd_filtered/resnet4b_pgd_filtered/*.vnnlib
+python3 generate_properties_pgd.py --seed $SEED --device cpu
+popd
+
+pushd marabou-cifar10
+./generate_benchmarks.sh $SEED
+popd
 
 echo "Successfully generated all random instances."
 echo "WARNING: CIFAR2020 not using random seed (first 100 images)"

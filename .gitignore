@@ -20,3 +20,4 @@ benchmarks/test/test_zipped.onnx
 */cifar2020/data/*
 */eran/data/*
 */oval21/cifardata/*
+*/cifar10_resnet/pytorch_model/tmp/
