@@ -41,8 +41,8 @@ to `1/255` for the ResNet-4B model.
 **Data Format**: The input images should be normalized using mean and std
 computed from CIFAR-10 training set. The perturbation budget is element-wise,
 eps=2/255 on unnormalized images and clipped to the [0, 1] range. We provide
-`eval.py` as a simple PyTorch example of loading data (e.g., data
-preprocessing, channel order etc).
+`cifar_eval.py` as a simple PyTorch example of loading data (e.g., data
+preprocessing, channel ordering etc).
 
 **Data Selection**: We propose to randomly select 48 images from the test set
 for the ResNet-2B and 24 images for the ResNet-4B.  The images are classified
