@@ -2,8 +2,7 @@
 
 The benchmarks consist of two MNIST classifiers, one with a maxpooling layer and the other with an average pooling layer. 
 
-For both the networks we suggest 25 images (provided in the data folder: 
-https://github.com/Neelanjana314/vnn-comp21-benchmarks/tree/main/Data); 
+For both the networks we suggest 25(randomly selected) images:
   1. for the average pooling network with a perturbation radii of 0.02 and 0.04 and a timeout of 5 minutes.
   2. for the max pooling network with a perturbation radii of 0.004 and a timeout of 7 minutes.
 
@@ -28,3 +27,5 @@ Convnet_maxpool.onnx:  97.92 %  (Training accuracy: 98.75 %)
 
 For any queries, please feel free to contact: neelanjana.pal@vanderbilt.edu
                                           or  neelanjana314@gmail.com 
+
+Acknowledgement for getting ideas on spec generating file: Patrick Henriksen(@pat676)
