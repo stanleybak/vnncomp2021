@@ -1,0 +1,29 @@
+small:
+8 4x4 filter, stride 1x1
+16 4x4 filter, stride 2x2, dropout 0.1
+128 ReLUs, dropout 0.5
+64 ReLUs, dropout 0.5
+
+Learnign rate: 0.0002
+2568 ReLUs
+120 epochs
+
+Medium:
+16 4x4 filter, stride 2x2
+32 4x4 filter, stride 2x2, dropout 0.1
+128 ReLUs, dropout 0.5
+64 ReLUs, dropout 0.5
+
+Learning rate: 0.0002
+4944 ReLUs
+120 epochs
+
+Large:
+32 4x4 filter, stride 2x2 
+64 4x4 filter, stride 2x2 dropout 0.1
+128 ReLUs, dropout 0.5
+64 ReLUs, dropout 0.5
+
+Learning rate: 0.0002
+10528 ReLUs
+120 epochs
