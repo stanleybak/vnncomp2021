@@ -2,7 +2,7 @@
 # run measurements for all categories for a single tool (passed on command line)
 # four args: 'v1' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file
 #
-# for example ./run_all_categories.sh v1 ~/repositories/nnenum/vnncomp_scripts/ . ./out.csv "test acasxu"
+# for example ./run_all_categories.sh v1 ~/repositories/simple_adversarial_generator/vnncomp_scripts . ./out.csv "test acasxu"
 
 VERSION_STRING=v1
 SCRIPT_PATH=$(dirname $(realpath $0))
@@ -78,10 +78,13 @@ do
 	exit 0
     fi
 	
-    while read ONNX VNNLIB TIMEOUT
+    while read ONNX VNNLIB TIMEOUT_CR
     do
 	ONNX_PATH="${VNNCOMP_FOLDER}/benchmarks/${CATEGORY}/${ONNX}"
 	VNNLIB_PATH="${VNNCOMP_FOLDER}/benchmarks/${CATEGORY}/${VNNLIB}"
+	
+	# remove carriage return from timeout
+	TIMEOUT=$(echo $TIMEOUT_CR | sed -e 's/\r//g')
 	
 	$SCRIPT_PATH/run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX_PATH $VNNLIB_PATH $TIMEOUT $RESULT_CSV_FILE
 		
