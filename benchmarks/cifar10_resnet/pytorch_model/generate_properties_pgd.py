@@ -11,6 +11,7 @@
 import os
 import argparse
 import csv
+import random
 
 import numpy as np
 import torch
@@ -251,8 +252,11 @@ def create_vnnlib(args):
     model = model.cuda()
 
     if args.seed is not None:
-        # we use random seed 0 for deterministic testing
         torch.random.manual_seed(args.seed)
+        torch.manual_seed(args.seed)
+        torch.cuda.manual_seed_all(args.seed)
+        random.seed(args.seed)
+        np.random.seed(args.seed)
 
     images, labels = load_data(num_imgs=10000, random=not args.deterministic)
 
@@ -325,7 +329,7 @@ if __name__ == '__main__':
     # parser.add_argument('--model', type=str, default="resnet2b", choices=["resnet2b", "resnet4b"])
     # parser.add_argument('--num_images', type=int, default=50)
     parser.add_argument('--deterministic', action='store_true', help='Do not generate random examples; use dataset order instead.')
-    parser.add_argument('--seed', type=int, default=None, help='random seed.')
+    parser.add_argument('--seed', type=int, default=0, help='random seed.')
     # parser.add_argument('--epsilons', type=str, default="2/255")
     args = parser.parse_args()
 
