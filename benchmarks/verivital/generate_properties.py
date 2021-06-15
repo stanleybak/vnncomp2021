@@ -21,7 +21,8 @@ def get_data(img_num: int = 25, seed: bool = True):
     test_data = datasets.MNIST(
         root = 'data', 
         train = False, 
-        transform = ToTensor()
+        transform = ToTensor(),
+        download = True
     )
     
     if seed:
@@ -111,7 +112,7 @@ def write_vnnlib_spec(upper_bound: torch.Tensor, lower_bound: torch.Tensor, corr
                 f.write(f"    (and (>= Y_{i} Y_{correct_label}))\n")
         f.write("))")
 
-def csv_instances(num_props: int = 25, path: str = "mnist_Conv_pool_instances.csv"):
+def csv_instances(num_props: int = 25, path: str = "verivital_instances.csv"):
 
     nets = ["Convnet_avgpool.onnx",
             "Convnet_maxpool.onnx"]
@@ -128,13 +129,13 @@ def csv_instances(num_props: int = 25, path: str = "mnist_Conv_pool_instances.cs
                 for prop in properties_avg:
 
                     if prop == properties_avg[-1]:
-                        f.write(f"{net},{prop},{timeout}\n")
+                        f.write(f"{net},./specs/avgpool_specs/{prop},{timeout}\n")
                     else:
-                        f.write(f"{net},{prop},{timeout}\n")
+                        f.write(f"{net},./specs/avgpool_specs/{prop},{timeout}\n")
                         
             if net == "Convnet_maxpool.onnx":
                 for prop in properties_max:
-                    f.write(f"{net},{prop},{timeout}\n")
+                    f.write(f"{net},./specs/maxpool_specs/{prop},{timeout}\n")
 
 
 if __name__ == '__main__':
@@ -145,7 +146,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     #print(args.seed)
     
-    num_images = 25
+    num_images = 20
     epsilon_avg = [0.02, 0.04]
     epsilon_max = [0.004]
 
