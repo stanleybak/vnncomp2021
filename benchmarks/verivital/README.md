@@ -12,10 +12,9 @@ The network expects the input image to be a Tensor of size (Nx1x28x28)[i.e NCHW]
 
 Run: 
 ```
-python generate_properties.py --seed
+python generate_properties.py --seed <seed>
 ```
-Here 'seed' is a boolean variable and the default is set to True. In case no random selecetion of image is need provide 
-'--seed False' as a command line argument.
+Here 'seed' is an int variable and the default is set to 0. Based on the seed value a specific set of images will be produced.
 
 The script generate_properties.py generates the vnnlib properties as well as the 
 mnist_Conv_pool_instances.csv provides the network,specs, timeout instances. 
