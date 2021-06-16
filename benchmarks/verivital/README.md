@@ -21,7 +21,7 @@ mnist_Conv_pool_instances.csv provides the network,specs, timeout instances.
 
 #### Network Performace(accuracies) on Test data:
 
-Convnet_avgpool.onnx:  97.95 %  (Training accuracy: 98.31 %)
+Convnet_avgpool.onnx:  97.95 %  (Training accuracy: 98.31 %)     
 Convnet_maxpool.onnx:  97.92 %  (Training accuracy: 98.75 %)
 
 For any queries, please feel free to contact: neelanjana.pal@vanderbilt.edu
