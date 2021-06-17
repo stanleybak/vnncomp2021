@@ -41,5 +41,9 @@ pushd marabou-cifar10
 ./generate_benchmarks.sh $SEED
 popd
 
+pushd verivital
+python3 generate_properties.py --seed $SEED
+popd
+
 echo "Successfully generated all random instances."
 echo "WARNING: CIFAR2020 not using random seed (first 100 images)"

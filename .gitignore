@@ -21,3 +21,4 @@ benchmarks/test/test_zipped.onnx
 */eran/data/*
 */oval21/cifardata/*
 */cifar10_resnet/pytorch_model/tmp/
+*/verivital/data
