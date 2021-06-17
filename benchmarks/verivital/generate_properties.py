@@ -15,7 +15,7 @@ import onnxruntime
 def to_numpy(tensor):
     return tensor.detach().cpu().numpy() if tensor.requires_grad else tensor.cpu().numpy()
 
-def get_data(img_num: int = 25, seed: bool = True):
+def get_data(img_num: int = 20, seed: int = 0):
     
     
     test_data = datasets.MNIST(
@@ -25,13 +25,11 @@ def get_data(img_num: int = 25, seed: bool = True):
         download = True
     )
     
-    if seed:
-        loader = DataLoader(test_data,batch_size=10000,shuffle=True, )#num_workers=1
-    else:
-        loader = DataLoader(test_data,batch_size=10000)#num_workers=1
-
+    loader = DataLoader(test_data,batch_size=10000)#num_workers=1 shuffle=True,
+    
     sample_images = next(iter(loader))
     images, labels = sample_images
+    #print(len(labels))
 
     image_counter = 0
     final_images, final_labels = [],[]
@@ -39,7 +37,7 @@ def get_data(img_num: int = 25, seed: bool = True):
     sess_avg = onnxruntime.InferenceSession("Convnet_avgpool.onnx")
     sess_max = onnxruntime.InferenceSession("Convnet_maxpool.onnx")
 
-    i = -1
+    i = seed-1
     while image_counter < img_num:
 
         i += 1
@@ -56,7 +54,7 @@ def get_data(img_num: int = 25, seed: bool = True):
 
         if output_avg == labels[i:i+1].item() and output_max == labels[i:i+1].item():
             correctly_classified = True
-
+            #print(i)
             image_counter += 1
             final_images.append(images[i:i+1])
             final_labels.append(labels[i:i+1])
@@ -137,20 +135,22 @@ def csv_instances(num_props: int = 25, path: str = "verivital_instances.csv"):
                 for prop in properties_max:
                     f.write(f"{net},./specs/maxpool_specs/{prop},{timeout}\n")
 
-
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description='Specification Generrator: vnnlib format',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--seed',action="store_true",default=False, help='seed is selected for image selection')
+    parser.add_argument('--seed',type = int,default= 0, help='seed is selected for image selection')
     args = parser.parse_args()
-    #print(args.seed)
     
     num_images = 20
     epsilon_avg = [0.02, 0.04]
     epsilon_max = [0.004]
+    
+    torch.manual_seed(args.seed)
+    idx = torch.randint(0,9000,(1,)).item()
+    #print(idx)
 
-    images, labels = get_data(img_num=num_images, seed = args.seed)
+    images, labels = get_data(img_num=num_images,seed = idx)
 
     for eps in epsilon_avg:
 
