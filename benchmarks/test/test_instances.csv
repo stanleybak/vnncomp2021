@@ -1,4 +1,4 @@
-test_sat.onnx,test_prop.vnnlib,60
-test_unsat.onnx,test_prop.vnnlib,60
 test_tiny.onnx,test_tiny.vnnlib,60
 test_small.onnx,test_small.vnnlib,60
+test_sat.onnx,test_prop.vnnlib,60
+test_unsat.onnx,test_prop.vnnlib,60

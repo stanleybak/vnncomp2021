@@ -17,12 +17,9 @@ TOTAL_TIMEOUT=0
 # if "true", measure overhead after each category
 MEASURE_OVERHEAD="true"
 
-# if "true", only run the first benchmark instance in each category (for testing)
-FIRST_INSTANCE_ONLY="false"
-
 # check arguments
-if [ "$#" -ne 5 ]; then
-    echo "Expected five arguments (got $#): '$VERSION_STRING' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file, categories"
+if [ "$#" -ne 5 ] && [ "$#" -ne 6 ]; then
+    echo "Expected 5-6 arguments (got $#): '$VERSION_STRING' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file, categories, single_run (0/1, if 1 then run the first instance of each category only)"
     exit 1
 fi
 
@@ -36,10 +33,18 @@ VNNCOMP_FOLDER=$3
 RESULT_CSV_FILE=$4
 # list of benchmark category names seperated by spaces
 CATEGORY_LIST=$5
+SINGLE_RUN=$6
+
+# if "true", only run the first benchmark instance in each category (for testing)
+FIRST_INSTANCE_ONLY="false"
+
+if [[ $SINGLE_RUN == "1" ]]; then
+    FIRST_INSTANCE_ONLY="true"
+fi
 
 if [[ $RESULT_CSV_FILE != *csv ]]; then
-	echo "result csv file '$RESULT_CSV_FILE' should end in .csv"
-	exit 1
+    echo "result csv file '$RESULT_CSV_FILE' should end in .csv"
+    exit 1
 fi
 
 if [ ! -d $VNNCOMP_FOLDER ] 
@@ -109,7 +114,7 @@ do
 	
 	$SCRIPT_PATH/run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX_PATH $VNNLIB_PATH $TIMEOUT $RESULT_CSV_FILE
 	
-	if [[ $FIRST_INSTANCE_ONLY == "true" ]]; then
+	if [[ $FIRST_INSTANCE_ONLY == "true" && $CATEGORY != "test" ]]; then
 	    break
 	fi
 		
