@@ -1,5 +1,7 @@
 #!/bin/bash
-# run code in docker
+# run code in docker. Single argument: space-seperated list of categories
+#
+# example usage: ./run_in_docker.sh "acasxu cifar10_resnet cifar2020 eran marabou-cifar10 mnistfc nn4sys oval21 test verivital"
 
 CATEGORIES="test"
 

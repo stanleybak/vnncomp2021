@@ -10,6 +10,16 @@ SCRIPT_PATH=$(dirname $(realpath $0))
 MAX_CATEGORY_TIMEOUT=6*60*60
 MIN_CATEGORY_TIMEOUT=3*60*60
 
+# if this is "true", will only report total timeout (and not run anything)
+TOTAL_TIMEOUT_ONLY="false"
+TOTAL_TIMEOUT=0
+
+# if "true", measure overhead after each category
+MEASURE_OVERHEAD="true"
+
+# if "true", only run the first benchmark instance in each category (for testing)
+FIRST_INSTANCE_ONLY="false"
+
 # check arguments
 if [ "$#" -ne 5 ]; then
     echo "Expected five arguments (got $#): '$VERSION_STRING' (version string), tool_scripts_folder, vnncomp_folder, result_csv_file, categories"
@@ -70,12 +80,23 @@ do
     
     SUM_TIMEOUT=`awk -F"," '{x+=$3}END{print x}' < $INSTANCES_CSV_PATH`
     echo "Category '$CATEGORY' timeout sum: $SUM_TIMEOUT seconds"
+    TOTAL_TIMEOUT=$(( $TOTAL_TIMEOUT + $SUM_TIMEOUT ))
    
     if (( $(echo "$SUM_TIMEOUT < $MIN_CATEGORY_TIMEOUT || $SUM_TIMEOUT > $MAX_CATEGORY_TIMEOUT" |bc -l) )); then
-	echo "$CATEGORY sum timeout ($SUM_TIMEOUT) not in valid range [$MIN_CATEGORY_TIMEOUT, $MAX_CATEGORY_TIMEOUT]"
-	
-	echo "errored" > $RESULT_CSV_FILE
-	exit 0
+    
+	# to compare more closely with last year, ignore runtime threshold for this one
+	if [[ $CATEGORY != "cifar2020" && $CATEGORY != "test" ]]; then
+	    echo "$CATEGORY sum timeout ($SUM_TIMEOUT) not in valid range [$MIN_CATEGORY_TIMEOUT, $MAX_CATEGORY_TIMEOUT]"
+	    
+	    echo "errored" > $RESULT_CSV_FILE
+	    exit 0
+	else
+	    echo "Ignoring out of bounds timeout for category $CATEGORY"
+	fi
+    fi
+    
+    if [[ $TOTAL_TIMEOUT_ONLY == "true" ]]; then
+	continue
     fi
 	
     while read ONNX VNNLIB TIMEOUT_CR
@@ -87,7 +108,24 @@ do
 	TIMEOUT=$(echo $TIMEOUT_CR | sed -e 's/\r//g')
 	
 	$SCRIPT_PATH/run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX_PATH $VNNLIB_PATH $TIMEOUT $RESULT_CSV_FILE
+	
+	if [[ $FIRST_INSTANCE_ONLY == "true" ]]; then
+	    break
+	fi
 		
-	done < $INSTANCES_CSV_PATH
-	IFS=$PREV_IFS
+    done < $INSTANCES_CSV_PATH
+    IFS=$PREV_IFS
+	
+    if [[ $MEASURE_OVERHEAD == "true" && $FIRST_INSTANCE_ONLY != "true" ]]; then
+	# measure overhead at end (hardcoded model)
+	ONNX_PATH="${VNNCOMP_FOLDER}/benchmarks/test/test_tiny.onnx"
+	VNNLIB_PATH="${VNNCOMP_FOLDER}/benchmarks/test/test_tiny.vnnlib"
+	TIMEOUT=120
+	$SCRIPT_PATH/run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX_PATH $VNNLIB_PATH $TIMEOUT $RESULT_CSV_FILE
+    fi
+
 done
+
+if [[ $TOTAL_TIMEOUT_ONLY == "true" ]]; then
+    echo "Total Timeout of all benchmarks: $TOTAL_TIMEOUT"
+fi
