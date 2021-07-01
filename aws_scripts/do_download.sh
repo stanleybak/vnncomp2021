@@ -8,7 +8,7 @@ if [ ! -d "vnncomp2021" ]
 then
     git clone https://github.com/stanleybak/vnncomp2021
 	pushd vnncomp2021
-	git checkout 2bee07e34afd2f4e954e96dcf0de53f5263dbec8
+	git checkout 27c3cc7cdce313cfeb10a6b44c37bde82509f21f
 	popd
 fi
 
