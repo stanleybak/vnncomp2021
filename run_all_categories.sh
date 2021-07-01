@@ -13,6 +13,7 @@ MIN_CATEGORY_TIMEOUT=3*60*60
 # if this is "true", will only report total timeout (and not run anything)
 TOTAL_TIMEOUT_ONLY="false"
 TOTAL_TIMEOUT=0
+TIMEOUT_OF_EXECUTED_INSTANCES=0
 
 # if "true", measure overhead after each category
 MEASURE_OVERHEAD="true"
@@ -114,6 +115,8 @@ do
 	
 	$SCRIPT_PATH/run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX_PATH $VNNLIB_PATH $TIMEOUT $RESULT_CSV_FILE
 	
+	TIMEOUT_OF_EXECUTED_INSTANCES=$(( $TIMEOUT_OF_EXECUTED_INSTANCES + $TIMEOUT ))
+	
 	if [[ $FIRST_INSTANCE_ONLY == "true" && $CATEGORY != "test" ]]; then
 	    break
 	fi
@@ -134,3 +137,5 @@ done
 if [[ $TOTAL_TIMEOUT_ONLY == "true" ]]; then
     echo "Total Timeout of all benchmarks: $TOTAL_TIMEOUT"
 fi
+
+echo "Timeout of executed instances: $TIMEOUT_OF_EXECUTED_INSTANCES sec"
