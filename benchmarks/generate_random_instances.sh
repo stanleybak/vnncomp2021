@@ -1,7 +1,9 @@
 #!/bin/bash -e
 # generate random benchmarks based on seed
 
-SEED=0
+# vnncomp2021 seed taken from ethereum block 12735571 hash on mined on June 30, 2021 at 9:18 AM EDT
+SEED_HEX="95f9d11b93aa0745e51dc13fc00a373f4c34c534f39ef87df6f3f0818db16203"
+SEED=$(python3 -c "print(int('${SEED_HEX}', 16) % 1000000000)")
 
 if [ "$#" -eq 1 ]; then
     SEED=$1
