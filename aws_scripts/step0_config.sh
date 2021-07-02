@@ -3,10 +3,10 @@
 
 
 # AWS connection server username@ip
-export SERVER=ubuntu@ec2-18-118-149-123.us-east-2.compute.amazonaws.com
+export SERVER=ubuntu@ec2-18-191-230-227.us-east-2.compute.amazonaws.com
 
 # name of tool to use
-export TOOL=nnv
+export TOOL=ERAN
 
 # path to tool script file (inside vnnlib repo)
 export TOOL_SCRIPT="/home/stan/repositories/vnncomp2021/tools/${TOOL}.sh"

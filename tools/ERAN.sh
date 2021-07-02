@@ -1,4 +1,4 @@
 export TOOL_NAME=ERAN
 export REPO=https://github.com/mnmueller/eran_vnncomp2021.git
-export COMMIT=ca42b4afd1ff8cb92ebde5303fcce0db26357b49
+export COMMIT=808bfa4a1d3660c7e161ab1550f90392c9fdd2ee
 export SCRIPTS_DIR=vnncomp_scripts
