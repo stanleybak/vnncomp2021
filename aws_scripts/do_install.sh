@@ -3,4 +3,6 @@
 
 source ./tool.sh
 
-sudo ./${TOOL_NAME}/${SCRIPTS_DIR}/install_tool.sh v1
+pushd ${TOOL_NAME}
+sudo ./${SCRIPTS_DIR}/install_tool.sh v1
+popd
