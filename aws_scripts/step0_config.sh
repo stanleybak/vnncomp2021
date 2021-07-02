@@ -3,10 +3,10 @@
 
 
 # AWS connection server username@ip
-export SERVER=ubuntu@ec2-18-117-181-55.us-east-2.compute.amazonaws.com
+export SERVER=ubuntu@ec2-3-17-172-232.us-east-2.compute.amazonaws.com
 
 # name of tool to use
-export TOOL=NeuralVerification.jl
+export TOOL=alpha-beta-CROWN
 
 # path to tool script file (inside vnnlib repo)
 export TOOL_SCRIPT="/home/stan/repositories/vnncomp2021/tools/${TOOL}.sh"
