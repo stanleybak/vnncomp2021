@@ -1,4 +1,4 @@
 export TOOL_NAME=VeriNet
-export REPO=none
-export COMMIT=none
-export SCRIPTS_DIR=none
+export REPO=0
+export COMMIT=0
+export SCRIPTS_DIR=vnncomp_scripts

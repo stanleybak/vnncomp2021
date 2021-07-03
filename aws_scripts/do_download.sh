@@ -1,4 +1,4 @@
-#!/bin/bash -ve
+#!/bin/bash -e
 # download vnncomp and tool
 
 sudo apt-get update
@@ -14,10 +14,43 @@ fi
 
 source ./tool.sh
 
-if [ ! -d ${TOOL_NAME} ] 
+if [ ! -d ${TOOL_NAME} ]  
 then
-	git clone ${REPO} ${TOOL_NAME}
-	pushd ${TOOL_NAME}
-	git checkout ${COMMIT}
-	popd
+	if [ ${REPO} != 0 ]
+	then
+		git clone ${REPO} ${TOOL_NAME}
+		pushd ${TOOL_NAME}
+		git checkout ${COMMIT}
+		
+		############
+		if [ ! -f "./$SCRIPTS_DIR/install_tool.sh" ] 
+		then
+			echo "tool script does not exist: ./$SCRIPTS_DIR/install_tool.sh"
+			exit 1
+		else
+			chmod +x "./$SCRIPTS_DIR/install_tool.sh"
+		fi
+		
+		#############
+		if [ ! -f "./$SCRIPTS_DIR/prepare_instance.sh" ] 
+		then
+			echo "tool script does not exist: ./$SCRIPTS_DIR/prepare_instance.sh"
+			exit 1
+		else
+			chmod +x "./$SCRIPTS_DIR/prepare_instance.sh"
+		fi
+		
+		#############
+		if [ ! -f "./$SCRIPTS_DIR/run_instance.sh" ] 
+		then
+			echo "tool script does not exist: ./$SCRIPTS_DIR/run_instance.sh"
+			exit 1
+		else
+			chmod +x "./$SCRIPTS_DIR/run_instance.sh"
+		fi
+		
+		popd
+	else
+		echo "No repo provided... please manually transfer tool code to server (and cadjust permissions of tool scripts if needed)"
+	fi
 fi

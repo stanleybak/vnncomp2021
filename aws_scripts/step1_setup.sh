@@ -10,6 +10,8 @@ then
     exit 1
 fi
 
+source $TOOL_SCRIPT
+
 if [ ! -f $PEM ] 
 then
     echo "PEM path does not exist: '$PEM'"
@@ -35,5 +37,9 @@ ssh -i $PEM ${SERVER} 'cd work;./do_download.sh'
 # copy ssmtp setup for email alerts (must be AFTER running do_download.sh which installs ssmtp)
 cat $SSMTP_CONF_PATH | ssh -i $PEM ${SERVER} "sudo tee /etc/ssmtp/ssmtp.conf > /dev/null"
 
+if [[ ${REPO} == 0 ]]
+then
+    printf "\nCommand to copy tool: scp -i ${PEM} filename.tar.gz ${SERVER}:~/work/\n"
+fi
 
 echo "generic setup done. proceed with tool setup at step 2"

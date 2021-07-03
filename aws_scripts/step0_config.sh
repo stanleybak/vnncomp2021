@@ -1,12 +1,11 @@
-#!/bin/bash -ve
+#!/bin/bash -e
 # setup variables for aws testing
 
-
 # AWS connection server username@ip
-export SERVER=ubuntu@ec2-3-17-172-232.us-east-2.compute.amazonaws.com
+export SERVER=ubuntu@ec2-18-191-111-156.us-east-2.compute.amazonaws.com
 
 # name of tool to use
-export TOOL=alpha-beta-CROWN
+export TOOL=RPM
 
 # path to tool script file (inside vnnlib repo)
 export TOOL_SCRIPT="/home/stan/repositories/vnncomp2021/tools/${TOOL}.sh"
