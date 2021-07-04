@@ -43,7 +43,7 @@ then
 fi
 
 # timeout upon which we'll kill the process
-KILL_TIMEOUT=$(echo "$TIMEOUT + 20" | bc)
+KILL_TIMEOUT=$(echo "$TIMEOUT + 60" | bc)
 
 # run prepare instance (60 second timeout)
 PREPARE_INSTANCE_TIMEOUT=60

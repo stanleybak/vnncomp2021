@@ -2,10 +2,10 @@
 # setup variables for aws testing
 
 # AWS connection server username@ip
-export SERVER=ubuntu@ec2-18-191-111-156.us-east-2.compute.amazonaws.com
+export SERVER=ubuntu@ec2-18-191-250-185.us-east-2.compute.amazonaws.com
 
 # name of tool to use
-export TOOL=RPM
+export TOOL=venus2
 
 # path to tool script file (inside vnnlib repo)
 export TOOL_SCRIPT="/home/stan/repositories/vnncomp2021/tools/${TOOL}.sh"
