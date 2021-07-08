@@ -9,7 +9,7 @@ sudo rm -frv vnncomp2021
 VNNCOMP_REPO=https://github.com/stanleybak/vnncomp2021
 VNNCOMP_COMMIT=b682cb28ff817a122ea2c2623cb3abde8ca4172a
 
-echo "Cloning vnncomp repo ${REPO} with commit hash ${VNNCOMP_COMMIT}"
+echo "Cloning vnncomp repo ${VNNCOMP_REPO} with commit hash ${VNNCOMP_COMMIT}"
 
 git clone $VNNCOMP_REPO
 pushd vnncomp2021
