@@ -12,7 +12,7 @@ scripts to help with evaluation on AWS
 
 Getting Gurobi license requires the machine connected to the university network. But once an instance is connected to a VPN, you will lose your ssh connection. So we automated this process in vpn_gurobi.sh. This script will connect to your university VPN and run `grbgetkey` command and then disconnect, such that the SSH connection is preserved.
 
-To get a gurobi license, run the following command:
+To get a gurobi license, run the following command on the AWS instance:
 ```bash
 # If your VPN has no GROUP option, please remove it from vpn_gurobi.sh. 
 # GUROBI_USER is the system user that will use the gurobi license. The license is only valid for one user. For a AWS ubuntu instance, this is usually "ubuntu". 
