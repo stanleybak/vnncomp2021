@@ -45,8 +45,8 @@ fi
 # timeout upon which we'll kill the process
 KILL_TIMEOUT=$(echo "$TIMEOUT + 60" | bc)
 
-# run prepare instance (60 second timeout)
-PREPARE_INSTANCE_TIMEOUT=60
+# run prepare instance (300 second = 5 min timeout)
+PREPARE_INSTANCE_TIMEOUT=300
 
 START=$(date +%s.%N)
 timeout $PREPARE_INSTANCE_TIMEOUT ${TOOL_FOLDER}/prepare_instance.sh "v1" "$CATEGORY" "$ONNX" "$VNNLIB"
