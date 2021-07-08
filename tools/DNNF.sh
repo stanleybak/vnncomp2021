@@ -1,4 +1,5 @@
 export TOOL_NAME=DNNF
 export REPO=https://github.com/dlshriver/DNNF.git 
-export COMMIT=31c38353491e6172769e3668df21adc1ac75004e
+export COMMIT=d4f08b43e4ad622157c65ac071183a3a0f4e6fe0
 export SCRIPTS_DIR=scripts/vnncomp
+export SERVER=ubuntu@ec2-18-217-180-181.us-east-2.compute.amazonaws.com

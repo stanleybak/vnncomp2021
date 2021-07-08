@@ -1,28 +1,17 @@
 #!/bin/bash -e
 # setup aws instance
-# before starting, make sure you can connect with ssh (and it accepts fingerprint)
+# manually set TOOL_SCRIPT, PEM, and SSMTP_CONF_PATH before starting
 
+if [ "$#" -ne 1 ] 
+then
+    echo "Expected single arguments (got $#): TOOL_NAME"
+    exit 1
+fi
+
+export TOOL=$1
 source step0_config.sh
 
-if [ ! -f $TOOL_SCRIPT ] 
-then
-    echo "Tool script does not exist: '$TOOL_SCRIPT'"
-    exit 1
-fi
 
-source $TOOL_SCRIPT
-
-if [ ! -f $PEM ] 
-then
-    echo "PEM path does not exist: '$PEM'"
-    exit 1
-fi
-
-if [ ! -f $SSMTP_CONF_PATH ] 
-then
-    echo "SSMTP conf path does not exist: '$SSMTP_CONF_PATH'"
-    exit 1
-fi
 
 ssh -i $PEM ${SERVER} 'mkdir -p ~/work'
 
@@ -42,4 +31,4 @@ then
     printf "\nCommand to copy tool: scp -i ${PEM} filename.tar.gz ${SERVER}:~/work/\n"
 fi
 
-echo "generic setup done. proceed with tool setup at step 2"
+echo "Copying and generic setup done. To continue, check tool's intallation instructions and do: ./step2_install.sh $TOOL"
