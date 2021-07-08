@@ -1,6 +1,8 @@
 #!/bin/bash -e
 # setup aws instance
 # manually set TOOL_SCRIPT, PEM, and SSMTP_CONF_PATH before starting
+#
+# To copy files to server manually: scp -i ${PEM} ./source_path ${SERVER}:~/work/destination_path
 
 if [ "$#" -ne 1 ] 
 then
