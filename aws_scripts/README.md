@@ -23,5 +23,5 @@ sudo ./vpn_gurobi.sh SERVER GROUP USERNAME PASSWARD GUROBI_USER GUROBI_KEY
 
 An example is:
 ```bash
-sudo ./vpn_gurobi.sh vpn.cmu.edu "Full VPN" twei2 mypassward! ubuntu 882d4d74-e015-11eb-8ce9-0242acXXXXXX
+sudo ./vpn_gurobi.sh vpn.cmu.edu "Full VPN" twei2 mypassword ubuntu 882d4d74-e015-11eb-8ce9-0242acXXXXXX
 ```
