@@ -1,6 +1,8 @@
-#!/bin/bash -ve
+#!/bin/bash -e
 # install tool
 
 source ./tool.sh
 
-sudo ./${TOOL_NAME}/${SCRIPTS_DIR}/install_tool.sh v1
+pushd ${TOOL_NAME}
+./${SCRIPTS_DIR}/install_tool.sh v1
+popd

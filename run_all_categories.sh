@@ -126,8 +126,8 @@ do
 	
     if [[ $MEASURE_OVERHEAD == "true" && $FIRST_INSTANCE_ONLY != "true" ]]; then
 	# measure overhead at end (hardcoded model)
-	ONNX_PATH="${VNNCOMP_FOLDER}/benchmarks/test/test_tiny.onnx"
-	VNNLIB_PATH="${VNNCOMP_FOLDER}/benchmarks/test/test_tiny.vnnlib"
+	ONNX_PATH="${VNNCOMP_FOLDER}/benchmarks/test/test_nano.onnx"
+	VNNLIB_PATH="${VNNCOMP_FOLDER}/benchmarks/test/test_nano.vnnlib"
 	TIMEOUT=120
 	$SCRIPT_PATH/run_single_instance.sh v1 $TOOL_FOLDER $CATEGORY $ONNX_PATH $VNNLIB_PATH $TIMEOUT $RESULT_CSV_FILE
     fi

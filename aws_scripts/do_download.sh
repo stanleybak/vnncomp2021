@@ -1,23 +1,61 @@
-#!/bin/bash -ve
+#!/bin/bash -e
 # download vnncomp and tool
 
 sudo apt-get update
 sudo apt-get install -y ssmtp sharutils mutt
 
-if [ ! -d "vnncomp2021" ] 
-then
-    git clone https://github.com/stanleybak/vnncomp2021
-	pushd vnncomp2021
-	git checkout 27c3cc7cdce313cfeb10a6b44c37bde82509f21f
-	popd
-fi
+sudo rm -frv vnncomp2021
+
+VNNCOMP_REPO=https://github.com/stanleybak/vnncomp2021
+VNNCOMP_COMMIT=bb53e7c15d59fb83ea69e6991a0ca95d2cccdd38
+
+echo "Cloning vnncomp repo ${VNNCOMP_REPO} with commit hash ${VNNCOMP_COMMIT}"
+
+git clone $VNNCOMP_REPO
+pushd vnncomp2021
+git checkout $VNNCOMP_COMMIT
+popd
 
 source ./tool.sh
 
-if [ ! -d ${TOOL_NAME} ] 
+sudo rm -frv $TOOL_NAME
+
+if [ ${REPO} != 0 ]
 then
+	echo "Cloning ${TOOL_NAME} from ${REPO} with commit hash ${COMMIT}"
+
 	git clone ${REPO} ${TOOL_NAME}
 	pushd ${TOOL_NAME}
 	git checkout ${COMMIT}
+	
+	############
+	if [ ! -f "./$SCRIPTS_DIR/install_tool.sh" ] 
+	then
+		echo "tool script does not exist: ./$SCRIPTS_DIR/install_tool.sh"
+		exit 1
+	else
+		chmod +x "./$SCRIPTS_DIR/install_tool.sh"
+	fi
+	
+	#############
+	if [ ! -f "./$SCRIPTS_DIR/prepare_instance.sh" ] 
+	then
+		echo "tool script does not exist: ./$SCRIPTS_DIR/prepare_instance.sh"
+		exit 1
+	else
+		chmod +x "./$SCRIPTS_DIR/prepare_instance.sh"
+	fi
+	
+	#############
+	if [ ! -f "./$SCRIPTS_DIR/run_instance.sh" ] 
+	then
+		echo "tool script does not exist: ./$SCRIPTS_DIR/run_instance.sh"
+		exit 1
+	else
+		chmod +x "./$SCRIPTS_DIR/run_instance.sh"
+	fi
+	
 	popd
+else
+	echo "No repo provided... please manually transfer tool code to server (and adjust permissions of tool scripts if needed)"
 fi

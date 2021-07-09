@@ -1,12 +1,25 @@
 ## Set up tools
 
-scripts to help with evaluation on AWS
+This folder containts scripts to help with evaluation on AWS.
 
-1. start (CPu or GPU) AWS ec2 server and get usename@ip address from connect menu. put this into the step0_config.sh script, along with the tool name and path to pem file to connect to the ec2 instance
-2. run step1_setup.sh (copies files)
-3. run step2_install.sh (automatic installation) / do manual installation steps (read the tool's README)
-4. run step3_test.sh (run tool on test benchmark). make sure no errors and test_sat is sat or unknown
-5. run step4_run.sh. This takes a while and will run in background. This script will auto shutdown the server when done (or after ~66 hours), as well as send me an email with the results.
+
+Instructions:
+
+1. update step0_config.sh TOOL_SCRIPT, PEM, and SSMTP_CONF_PATH variables based on your local system paths (one time)
+
+2. Update tool scripts based on tool repo / commit information (see vnncomp2021/tools for examples)
+
+3. When you spawn an EC2 instance, put the server information into the tool script SERVER variable.
+
+3. Run one-by-one, checking the output at each step:
+./step1_setup.sh TOOL_NAME
+./step2_install.sh TOOL_NAME
+./step3_test.sh TOOL_NAME
+./step4_run.sh TOOL_NAME
+
+Step 2 and 3 will output .txt files in the local directory of stdout/stderr, useful for debugging problems
+
+Step 4 will run on AWS EC2 in tmux, so that disconnecting from ssh keeps the process alive.
 
 ## Get gurobi license
 

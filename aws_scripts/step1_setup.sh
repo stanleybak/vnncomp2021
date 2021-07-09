@@ -1,26 +1,19 @@
 #!/bin/bash -e
 # setup aws instance
-# before starting, make sure you can connect with ssh (and it accepts fingerprint)
+# manually set TOOL_SCRIPT, PEM, and SSMTP_CONF_PATH before starting
+#
+# To copy files to server manually: scp -i ${PEM} ./source_path ${SERVER}:~/work/destination_path
 
+if [ "$#" -ne 1 ] 
+then
+    echo "Expected single arguments (got $#): TOOL_NAME"
+    exit 1
+fi
+
+export TOOL=$1
 source step0_config.sh
 
-if [ ! -f $TOOL_SCRIPT ] 
-then
-    echo "Tool script does not exist: '$TOOL_SCRIPT'"
-    exit 1
-fi
 
-if [ ! -f $PEM ] 
-then
-    echo "PEM path does not exist: '$PEM'"
-    exit 1
-fi
-
-if [ ! -f $SSMTP_CONF_PATH ] 
-then
-    echo "SSMTP conf path does not exist: '$SSMTP_CONF_PATH'"
-    exit 1
-fi
 
 ssh -i $PEM ${SERVER} 'mkdir -p ~/work'
 
@@ -35,5 +28,9 @@ ssh -i $PEM ${SERVER} 'cd work;./do_download.sh'
 # copy ssmtp setup for email alerts (must be AFTER running do_download.sh which installs ssmtp)
 cat $SSMTP_CONF_PATH | ssh -i $PEM ${SERVER} "sudo tee /etc/ssmtp/ssmtp.conf > /dev/null"
 
+if [[ ${REPO} == 0 ]]
+then
+    printf "\nCommand to copy tool: scp -i ${PEM} filename.tar.gz ${SERVER}:~/work/\n"
+fi
 
-echo "generic setup done. proceed with tool setup at step 2"
+echo "Copying and generic setup done. To continue, check tool's intallation instructions and do: ./step2_install.sh $TOOL"
