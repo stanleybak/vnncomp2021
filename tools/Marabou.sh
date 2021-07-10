@@ -1,4 +1,5 @@
 export TOOL_NAME=Marabou
 export REPO=https://github.com/anwu1219/Marabou_private.git
-export COMMIT=32bc82e785c570523c0af0a0e6e2b77c7e89986f
+export COMMIT=81e9f14f7ae9f6a2097524ea1291e86434ef42dc
 export SCRIPTS_DIR=vnn-comp-scripts
+export SERVER=ubuntu@ec2-3-138-108-235.us-east-2.compute.amazonaws.com
