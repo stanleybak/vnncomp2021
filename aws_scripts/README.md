@@ -31,10 +31,10 @@ To get a gurobi license, run the following command on the AWS instance:
 # GUROBI_USER is the system user that will use the gurobi license. The license is only valid for one user. For a AWS ubuntu instance, this is usually "ubuntu". 
 # GUROBI_KEY is from https://www.gurobi.com/downloads/free-academic-license/. It looks like: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX. The key expires soon, please get the key before running the script. You can get unlimited number of keys.
 
-sudo ./vpn_gurobi.sh SERVER GROUP USERNAME PASSWARD GUROBI_USER GUROBI_KEY
+sudo bash vpn_gurobi.sh SERVER GROUP USERNAME PASSWARD GUROBI_USER GUROBI_KEY
 ```
 
 An example is:
 ```bash
-sudo ./vpn_gurobi.sh vpn.cmu.edu "Full VPN" twei2 mypassword ubuntu 882d4d74-e015-11eb-8ce9-0242acXXXXXX
+sudo bash vpn_gurobi.sh vpn.cmu.edu "Full VPN" twei2 mypassword ubuntu 882d4d74-e015-11eb-8ce9-0242acXXXXXX
 ```

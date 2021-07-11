@@ -24,6 +24,13 @@ function checkOpenconnect(){
     echo $?
 }
 
+cd ~/
+wget https://packages.gurobi.com/9.1/gurobi9.1.2_linux64.tar.gz
+tar -xzvf gurobi9.1.2_linux64.tar.gz 
+rm gurobi9.1.2_linux64.tar.gz 
+sudo mv gurobi912/ /opt/ 
+
+echo | apt-get install openconnect
 startOpenConnect
 sleep 2
 OPENCONNECT_STATUS=$(checkOpenconnect)
