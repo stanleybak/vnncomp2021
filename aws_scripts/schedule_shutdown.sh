@@ -9,8 +9,9 @@ fi
 SECS=$1
 SUBJECT=$2
 FILE1=$3
+FILE2=$4
 
 sleep $SECS
-echo "$SUBJECT" | mutt -s $SUBJECT -a $FILE1 -- stanleybak@gmail.com
+echo "$SUBJECT" | mutt -s $SUBJECT -a $FILE1 $FILE2 -- stanleybak@gmail.com
 sleep 2
 sudo shutdown -h now 
