@@ -1,8 +1,8 @@
 #!/bin/bash
 # shutdown after X seconds
 
-if [ "$#" -ne 3 ]; then
-    echo "Expected 3 arguments (got $#): secs, email_subject, file1"
+if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
+    echo "Expected 3-4 arguments (got $#): secs, email_subject, file1, file2"
     exit 1
 fi
 
