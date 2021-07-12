@@ -7,7 +7,7 @@ sudo apt-get install -y ssmtp sharutils mutt
 sudo rm -frv vnncomp2021
 
 VNNCOMP_REPO=https://github.com/stanleybak/vnncomp2021
-VNNCOMP_COMMIT=9ad96ea25fa9b5ea2ce2e56943f17267dab91e49
+VNNCOMP_COMMIT=9064b3c8a49a362c76ebb5d3396020ae2104877f
 
 echo "Cloning vnncomp repo ${VNNCOMP_REPO} with commit hash ${VNNCOMP_COMMIT}"
 
