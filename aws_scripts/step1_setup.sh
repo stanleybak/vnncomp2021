@@ -6,7 +6,7 @@
 
 if [ "$#" -ne 1 ] 
 then
-    echo "Expected single arguments (got $#): TOOL_NAME"
+    echo "Expected single argument (got $#): TOOL_NAME"
     exit 1
 fi
 

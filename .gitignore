@@ -23,3 +23,4 @@ benchmarks/test/test_zipped.onnx
 */cifar10_resnet/pytorch_model/tmp/
 */verivital/data
 aws_scripts/*_log.txt
+aws_scripts/stdout_*.txt

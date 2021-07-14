@@ -1,5 +1,5 @@
 export TOOL_NAME=venus2
 export REPO=https://github.com/pkouvaros/venus2_vnncomp21
-export COMMIT=1a70cc4a174ebaf11ecd605bd50505180e6f5da7
+export COMMIT=57e9608041d230b5d78c4f2afb890b81035436a1
 export SCRIPTS_DIR=vnncomp_scripts
-export SERVER=ubuntu@ec2-18-117-80-158.us-east-2.compute.amazonaws.com
+export SERVER=ubuntu@ec2-18-188-244-219.us-east-2.compute.amazonaws.com
