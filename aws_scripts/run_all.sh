@@ -9,7 +9,7 @@ pushd vnncomp2021
 
 # trim stdout to 10MB
 OUTFILE="stdout_${TOOL_NAME}.txt"
-head -c 1048576 stdout.txt > $OUTFILE
+head -c 10485760 stdout.txt > $OUTFILE
 
 popd
 

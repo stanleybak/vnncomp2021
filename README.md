@@ -1,5 +1,7 @@
 # VNN-COMP 2021 
 
+Note: The competition results and code for scoring is available here: https://github.com/stanleybak/vnncomp2021_results
+
 This repository contains the networks and benchmarks used for the 2nd International Verification of Neural Networks Competition (VNN-COMP'21), as well as scripts for running the competition. The issues contains discussion about rules and benchmark proposals.
 
 The VNN-COMP'21 website is here:  https://sites.google.com/view/vnn2021 
